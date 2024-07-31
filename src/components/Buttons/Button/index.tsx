@@ -14,17 +14,15 @@ export default function Button({
   type = 'button',
   className,
   disabled,
-  ...rest
 }: ButtonProps) {
-  const baseClasses = "h-9 px-4 rounded-md w-full font-medium text-sm transition-all duration-150 select-none disabled:bg-gray-light disabled:text-gray-normal truncate line-clamp-1";
+  const baseClasses = "h-9 px-4 rounded-full w-full font-medium text-sm transition-all duration-150 select-none text-center truncate line-clamp-1";
   const variantClasses = {
-    solid: "bg-purple text-white hover:bg-purple-hover",
-    outline: "bg-white text-purple border-2 border-purple",
+    solid: "bg-blue text-white hover:bg-blue-hover disabled:bg-blue-light disabled:text-blue",
+    outline: "bg-white text-purple border-2 border-blue",
   };
 
   return (
     <button
-      {...rest}
       type={type}
       className={clsx(baseClasses, variantClasses[variant], className)}
       disabled={disabled}

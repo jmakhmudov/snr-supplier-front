@@ -30,3 +30,42 @@ export const verifyToken = async () => {
 
   return true;
 }
+
+export const login = async (formData: FormData) => {
+  const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
+  formData.set('phone', phone);
+
+  const data = await fetch(`${API_URL}/api/v1/suppliers/login/`, {
+    method: 'POST',
+    body: formData
+  }).then(res => res.json());
+
+  console.log(data);
+
+  return data;
+}
+
+export const signUp = async (formData: FormData) => {
+  const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
+  formData.set('phone', phone);
+
+  const data = await fetch(`${API_URL}/api/v1/clients/new/`, {
+    method: 'POST',
+    body: formData
+  }).then(res => res.json())
+
+  console.log(data);
+
+  return data;
+}
+
+export const verifyCode = async (formData: FormData) => {
+  const data = await fetch(`${API_URL}/api/v1/clients/verify/`, {
+    method: 'POST',
+    body: formData
+  }).then(res => res.json());
+  
+  console.log(data);
+
+  return data;
+}

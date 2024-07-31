@@ -11,6 +11,11 @@ const config: Config = {
       colors: {
         purple: '#4718CD',
         'purple-hover': '#350CA9',
+        blue: {
+          DEFAULT: '#3A76FF',
+          light: '#E2EAF8',
+          hover: '#2f65e0',
+        },
         gray: {
           'light-0': '#F8F8F8',
           light: '#EBEBEB',

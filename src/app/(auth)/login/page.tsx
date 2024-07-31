@@ -1,28 +1,36 @@
 'use client'
 
-import Button from "@/components/Buttons/Button";
+import bg from '@/../public/images/bg.jpg';
+import Input from "@/components/Input";
+import SubmitForm from "@/components/SubmitForm";
 import { InputMask } from "@react-input/mask";
-import Link from "next/link";
-import { login } from "./actions";
 import Image from "next/image";
-import bg from '@/../public/images/bg.jpg'
-import { useFormStatus } from "react-dom";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useFormState } from "react-dom";
+import { FiLock, FiPhone } from "react-icons/fi";
+import { FormState, loginAction } from "./actions";
 
 export default function LoginPage() {
-  const { pending } = useFormStatus()
-  const formSubmit = async (formData: FormData) => {
-    await login(formData);
-    window.location.href = '/';
-  }
+  const [formState, formAction] = useFormState(loginAction, {
+    message: 'init'
+  } as FormState);
+  const [showAlert, setShowAlert] = useState(false);
+
+  console.log(formState, 'formstate')
+
+  useEffect(() => {
+    if (formState.message === 'error') {
+      setShowAlert(true);
+    }
+  }, [formState.message]);
 
   return (
     <div>
       <header className="fixed top-0 left-0 right-0 p-3.5 md:px-16 flex items-center justify-between z-10">
-        <div className="text-sm font-semibold">RU</div>
+        <div></div>
 
-        <Link href={'/signup'}>
-          <Button className="w-auto">Регистрация</Button>
-        </Link>
+        <div>laguag</div>
       </header>
 
       <div className="w-full flex items-center justify-between absolute top-0 bottom-0 left-0 right-0">
@@ -30,35 +38,71 @@ export default function LoginPage() {
           alt="bg"
           src={bg}
           placeholder="blur"
-          className="object-cover w-1/2 h-screen hidden md:block"
+          className="object-cover w-full h-screen hidden md:block"
           quality={50}
           priority
         />
 
-        <form className="space-y-6 w-full md:w-1/2 px-3.5 md:px-16" action={formSubmit}>
-          <h1 className="font-bold text-2xl">Вход в систему</h1>
+        <form
+          className=" w-full md:w-1/2 px-3.5 md:px-16 h-full grid place-items-center md:bg-white md:rounded-3xl md:-ml-10"
+          action={formAction}
+        >
+          <div className="space-y-6 w-2/3">
+            <div className="space-y-2">
+              <h1 className="font-semibold text-2xl">Здравствуйте!</h1>
+              <p className="opacity-60 text-sm">Введите номер телефона и пароль для входа</p>
+            </div>
 
-          <div className="space-y-4">
-            <InputMask
-              name="phone"
-              className="w-full outline-none border border-gray-light p-3 px-3.5 text-sm rounded-md placeholder-gray-light"
-              placeholder="+998"
-              mask="+998 __ ___ __ __"
-              replacement={{ _: /\d/ }}
-              defaultValue={'+998'}
-              onChange={(e) => console.log(e.target.value.replaceAll(' ', '').replace('+', ''))}
-            />
+            <div className="space-y-4">
+              <Input
+                label="Номер телефона"
+                alert={showAlert}
+                variant="underlined"
+                icon={<FiPhone size={17} />}
+              >
+                <InputMask
+                  name="phone"
+                  className="w-full outline-none  placeholder-gray-normal"
+                  placeholder="+998"
+                  mask="+998 __ ___ __ __"
+                  replacement={{ _: /\d/ }}
+                  required
+                />
+              </Input>
 
-            <input
-              type="password"
-              name="password"
-              className="w-full outline-none border border-gray-light p-3 px-3.5 text-sm rounded-md placeholder-gray-light"
-            />
+              <Input
+                variant="underlined"
+                label="Пароль"
+                alert={showAlert}
+                icon={<FiLock size={17} />}
+                name="password"
+                type="password"
+                placeholder="********"
+                required
+              />
 
-            <Button type="submit" disabled={pending}>Войти</Button>
 
-            <div className="w-full grid place-items-center">
-              <Link href={'/recover'} className="text-xs text-purple font-semibold text-center w-full">Забыли пароль?</Link>
+              {showAlert && <div className="text-red-500 text-xs text-center">Неверный логин или пароль!</div>}
+
+              <div className="w-full grid place-items-center">
+                <Link
+                  href={'/recover'}
+                  className="text-xs text-gray-normal underline text-center w-full"
+                >
+                  Забыли пароль?
+                </Link>
+              </div>
+
+              <SubmitForm>Войти</SubmitForm>
+
+              <div className="w-full grid place-items-center">
+                <Link
+                  href={'/signup'}
+                  className="text-xs text-purple underline text-center w-full"
+                >
+                  Зарегестрироваться
+                </Link>
+              </div>
             </div>
           </div>
         </form>
