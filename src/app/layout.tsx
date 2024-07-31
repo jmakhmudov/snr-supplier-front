@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import { verifyToken } from "@/utils/auth";
+import Sidebar from "@/components/Sidebar";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,7 +23,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {isAuthenticated && <Header />}
+        {isAuthenticated && <Sidebar />}
 
         <main className="px-3.5 pt-10 pb-24 md:px-16">
           {children}

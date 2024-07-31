@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import ProductsPage from "./(products)/products-page";
 import { Product } from "@/types";
 
 async function getProducts() {
@@ -17,6 +16,8 @@ export default async function Home() {
   const products: Product[] = await getProducts();
   
   return (
-    <ProductsPage products={products} />
+    <div>
+      sdd
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verifyToken } from './utils/auth';
-import { syncUserData } from './helpers/syncUserData';
 
 export async function middleware(request: NextRequest) {
   const isAuthenticated = await verifyToken();

@@ -38,13 +38,12 @@ export default function LoginPage() {
           alt="bg"
           src={bg}
           placeholder="blur"
-          className="object-cover w-full h-screen hidden md:block"
-          quality={50}
+          className="object-cover object-bottom w-full h-screen hidden md:block"
           priority
         />
 
         <form
-          className=" w-full md:w-1/2 px-3.5 md:px-16 h-full grid place-items-center md:bg-white md:rounded-3xl md:-ml-10"
+          className="w-full md:w-2/3 px-3.5 md:px-16 h-full grid place-items-center md:bg-white md:rounded-3xl md:-ml-10"
           action={formAction}
         >
           <div className="space-y-6 w-2/3">

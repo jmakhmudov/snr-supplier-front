@@ -30,7 +30,7 @@ function EnterCode({ phone }: { phone: string }) {
   }, [state])
 
   return (
-    <div className="w-full md:w-1/2 px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center">
+    <div className="w-full md:w-2/3 px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center">
       <form className="w-full space-y-6" action={verify}>
         <h1 className="font-bold text-2xl">Введите код</h1>
         <p className="text-gray-normal">Код был отправлен на номер {phone}</p>
@@ -61,7 +61,6 @@ function EnterCode({ phone }: { phone: string }) {
 
 export default function SignUpPage() {
   const [state, signUp] = useFormState(signUpAction, null);
-  const { pending } = useFormStatus();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [phone, setPhone] = useState('');
   const [coordinates, setCoordinates] = useState<string[]>([])
@@ -94,7 +93,7 @@ export default function SignUpPage() {
 
   return (
     <div className="grid mt-10 mb-10">
-      <header className="fixed z-10 top-0 left-0 right-0 p-3.5 md:px-16 flex items-center justify-between">
+      <header className="absolute z-10 top-0 left-0 right-0 p-3.5 md:px-16 flex items-center justify-between">
         <div></div>
 
         <div>language</div>
@@ -105,8 +104,7 @@ export default function SignUpPage() {
           alt="bg"
           src={bg}
           placeholder="blur"
-          className="object-cover w-1/2 h-full hidden md:block"
-          quality={50}
+          className="object-cover object-bottom w-full h-full hidden md:block"
           priority
         />
 
