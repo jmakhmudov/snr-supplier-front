@@ -25,7 +25,7 @@ export default function CartPage() {
         <section className="w-full md:w-2/3 border border-gray-light rounded-md p-4 grid grid-cols-1 divide-y divide-gray-light shadow-sm">
           {
             user.basket.map(basket => (
-              <CartProduct basket={basket} />
+              <CartProduct key={basket.quantity + basket.product.uuid} basket={basket} />
             ))
           }
         </section>

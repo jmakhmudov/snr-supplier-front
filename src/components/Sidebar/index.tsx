@@ -38,18 +38,19 @@ export default function Sidebar() {
         </Link>
 
         <nav className="w-full">
-        {
-          navLink.map(link => (
-            <Link
-              data-isActive={pathname === link.href}
-              href={link.href}
-              className="flex items-center gap-3 cursor-pointer hover:bg-blue-light hover:text-blue w-full px-10 py-3 hover:border-r-2 border-blue transition-all duration-150 data-[isActive=true]:text-blue"
-            >
-              {link.icon}
-              <div>{link.name}</div>
-            </Link>
-          ))
-        }
+          {
+            navLink.map(link => (
+              <Link
+                key={link.href}
+                data-isActive={pathname === link.href}
+                href={link.href}
+                className="flex items-center gap-3 cursor-pointer hover:bg-blue-light hover:text-blue w-full px-10 py-3 hover:border-r-2 border-blue transition-all duration-150 data-[isActive=true]:text-blue"
+              >
+                {link.icon}
+                <div>{link.name}</div>
+              </Link>
+            ))
+          }
         </nav>
 
       </div>
