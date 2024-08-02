@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        'pulse-slow': 'pulse 3s infinite',
+        'pulse-fast': 'pulse 0.75s infinite',
+      },
       colors: {
         purple: '#4718CD',
         'purple-hover': '#350CA9',

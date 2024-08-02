@@ -3,15 +3,10 @@
 import { Product } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
-import Button from "../Buttons/Button"
-import { addToCart } from "@/utils/cart"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
-import { FiPlus, FiMinus } from "react-icons/fi";
-import { useSnapshot } from "valtio"
-import { store } from "@/store"
-import Cookies from "universal-cookie"
-import { syncUserData } from "@/helpers/syncUserData"
+import { BsLightningChargeFill, BsThreeDots } from "react-icons/bs"
+import { FiCheck } from "react-icons/fi"
 
 interface ProductProps {
   product: Product
@@ -20,56 +15,96 @@ interface ProductProps {
 export default function ProductCard({
   product
 }: ProductProps) {
-  const { user } = useSnapshot(store);
-  const [isInCart, setIsInCart] = useState<boolean | null>(null);
+  const [showOptions, setShowOptions] = useState(false);
+  const handleMoreOptions = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-  useEffect(() => {
-    if (user.basket) {
-      setIsInCart(user.basket.some(p => p.product.uuid === product.uuid));
-    }
-  }, [user.basket, product.uuid]);
-
-  const handleAddProduct = async () => {
-    await addToCart(product.uuid);
-
-    await syncUserData();
-  }
-
-  if (isInCart === null) {
-    return <div>Loading...</div>; 
+    setShowOptions(!showOptions);
   }
 
   return (
-    <div className="border border-gray-light hover:shadow-sm transition-all duration-150 p-2.5 rounded-md w-full h-full flex flex-col justify-between relative overflow-hidden select-none">
-      {
-        product.is_top &&
-        <div className="bg-accent-lime py-1 px-2 absolute top-0 right-0 z-10 text-xs font-bold rounded-bl-md">ТОП</div>
-      }
+    <Link
+      href={`/products/${product.uuid}`}
+      className="bg-white p-3 grid gap-3 rounded-xl hover:shadow-sm select-none relative"
+    >
+      <div title="В топе" className="absolute top-0 left-0 p-3 text-blue flex items-center gap-2 group">
+        <BsLightningChargeFill className="animate-pulse-slow" />
+        <div className=" group-hover:text-blue group-hover:ml-0 transition-all duration-300 text-xs font-medium text-transparent -ml-5">В топе</div>
+      </div>
 
-      <Link href={`/products/${product.uuid}`} className="w-full min-h-40 relative rounded-md bg-white">
-        <Image
-          alt={product.name}
-          src={product.picture.picture}
-          className="object-contain"
-          fill
-        />
-      </Link>
+      <div className="flex gap-3">
+        <div className="grid gap-2 w-1/2">
+          <Image
+            src={product.picture.picture}
+            alt={product.name}
+            width={150}
+            height={150}
+            className="object-cover rounded-lg"
+          />
 
-      <div className="mt-2 flex flex-col gap-3 justify-between h-full">
-        <div>
-          {product.discount && <div className="text-xs line-through text-gray-normal">13900 сум</div>}
-          <div className="font-bold text-lg -mt-1">{Number(product.price).toLocaleString("ru")} сум</div>
+          <div className="flex items-center justify-between gap-1">
+            <div className="bg-blue-light text-blue rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">В продаже</div>
+
+            <div
+              data-showOptions={showOptions}
+              className="bg-gray-light-0 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-light data-[showOptions=true]:bg-gray-light relative"
+              onClick={handleMoreOptions}
+            >
+              <div
+                data-showOptions={showOptions}
+                className="hidden absolute -right-24 bottom-0 bg-gray-light-0 rounded-lg text-xs overflow-hidden data-[showOptions=true]:block border border-gray-light"
+              >
+                <div className="px-3 py-1.5 hover:bg-gray-light border-b border-gray-light flex items-center gap-1">
+                  <FiCheck />
+                  Активный
+                </div>
+                <div className="px-3 py-1.5 hover:bg-gray-light flex items-center gap-1">
+                  Неактивный
+                </div>
+              </div>
+              <BsThreeDots />
+            </div>
+          </div>
         </div>
 
-        <div className="text-xs -mt-3 line-clamp-2">{product.name}</div>
+        <div className="w-1/2 flex flex-col gap-2">
+          <div className="text-xs font-semibold line-clamp-3">{product.name}</div>
 
-        <Button
-          onClick={handleAddProduct}
-          disabled={isInCart}
-        >
-          {isInCart ? 'Добавлен в корзину' : 'В корзину'}
-        </Button>
+          <div className="grid gap-1">
+            <ProductData label="Рейтинг" value="0" />
+            <ProductData label="Просмотры" value="0" />
+            <ProductData label="Конверсия" value="0%" />
+            <ProductData label="Продано" value="0" />
+          </div>
+        </div>
       </div>
-    </div >
+
+      <div className="grid gap-4">
+        <div className="flex items-center justify-between gap-1">
+          <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">На складе 0</div>
+
+          <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">К отправке 0</div>
+        </div>
+
+        <div className="font-semibold text-sm text-center">от {Number(product.price).toLocaleString('ru')} сум</div>
+      </div>
+
+    </Link>
+  )
+}
+
+function ProductData({
+  label,
+  value,
+}: {
+  label: string,
+  value: string
+}) {
+  return (
+    <div className="flex items-center justify-between text-gray-normal text-[10px]">
+      {label}
+      <span className="text-black">{value}</span>
+    </div>
   )
 }
