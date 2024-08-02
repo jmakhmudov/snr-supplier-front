@@ -22,8 +22,6 @@ export default function SuppliersPageList() {
           onChange={(e) => handleSearchInput(e)}
           setSearchQ={setSearchQ}
           placeholder="Искать постащиков"
-          showFilters={showFilters}
-          setShowFilters={setShowFilters}
         />
       </section>
     </div>
