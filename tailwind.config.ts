@@ -23,7 +23,7 @@ const config: Config = {
         gray: {
           'light-0': '#F8F8F8',
           light: '#EBEBEB',
-          normal: '#767676'
+          normal: '#D5D5D5'
         },
         accent: {
           lime: '#EBFF00'

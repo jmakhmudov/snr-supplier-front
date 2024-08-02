@@ -27,16 +27,13 @@ export default function ProductsList({
         setSearchQ={setQ}
       />
 
-      <div className="grid grid-cols-3 gap-4 mt-6">
+      <div className="grid grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
         {
           products.map((product) => (
             <ProductCard product={product} />
           ))
         }
       </div>
-
-
-
     </section>
   )
 }

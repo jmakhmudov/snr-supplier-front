@@ -30,6 +30,7 @@ export default function ProductCard({
     >
       <div title="В топе" className="absolute top-0 left-0 p-3 text-blue flex items-center gap-2 group">
         <BsLightningChargeFill className="animate-pulse-slow" />
+
         <div className=" group-hover:text-blue group-hover:ml-0 transition-all duration-300 text-xs font-medium text-transparent -ml-5">В топе</div>
       </div>
 
@@ -102,7 +103,7 @@ function ProductData({
   value: string
 }) {
   return (
-    <div className="flex items-center justify-between text-gray-normal text-[10px]">
+    <div className="flex items-center justify-between text-black text-opacity-50 text-[10px]">
       {label}
       <span className="text-black">{value}</span>
     </div>
