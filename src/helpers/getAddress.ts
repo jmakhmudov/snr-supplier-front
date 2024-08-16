@@ -2,7 +2,7 @@
 
 const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
 
-export const getAddress = async (coordinates: string[]) => {
+export const getAddress = async (coordinates: number[]) => {
   const url = `https://geocode-maps.yandex.ru/1.x/?format=json&apikey=${YANDEX_API_KEY}&geocode=${coordinates[1]}, ${coordinates[0]}`
 
   const res = await fetch(url)

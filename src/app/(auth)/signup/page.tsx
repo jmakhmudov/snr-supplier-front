@@ -1,20 +1,19 @@
 'use client'
 
 import bg from '@/../public/images/bg.jpg';
-import Button from "@/components/Buttons/Button";
 import Input from "@/components/Input";
+import SubmitForm from '@/components/SubmitForm';
 import { getAddress } from "@/helpers/getAddress";
-import { GeolocationControl, Map, Placemark, YMaps } from '@pbe/react-yandex-maps';
 import { InputMask } from "@react-input/mask";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { FiPhone } from "react-icons/fi";
+import { MdOutlinePassword } from "react-icons/md";
 import { signUpAction, verifyCodeAction } from "./actions";
 import { inputFields } from "./input-fields";
-import { MdOutlinePassword } from "react-icons/md";
-import SubmitForm from '@/components/SubmitForm';
+import Map from '@/components/Map';
 
 function EnterCode({ phone }: { phone: string }) {
   const [state, verify] = useFormState(verifyCodeAction, {
@@ -63,15 +62,12 @@ export default function SignUpPage() {
   const [state, signUp] = useFormState(signUpAction, null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [phone, setPhone] = useState('');
-  const [coordinates, setCoordinates] = useState<string[]>([])
-  const [address, setAddress] = useState('');
 
   const handleSignUp = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     signUp(formData);
   };
-  console.log(coordinates)
 
   useEffect(() => {
     if (state) {
@@ -79,17 +75,6 @@ export default function SignUpPage() {
     }
   }, [state])
 
-
-  useEffect(() => {
-    if (coordinates[0]) {
-      handleAddressFetch()
-    }
-  }, [coordinates])
-
-  const handleAddressFetch = async () => {
-    const add = await getAddress(coordinates);
-    setAddress(add);
-  }
 
   return (
     <div className="grid mt-10 mb-10">
@@ -145,41 +130,9 @@ export default function SignUpPage() {
                     }
                   </div>
 
-                  <input type="text" name="latitude" value={coordinates[0]} className="hidden" required />
-                  <input type="text" name="longitude" value={coordinates[1]} className="hidden" required />
-
                   <div className="mt-2 md:mt-1 md:w-1/2 w-full h-full">
                     <div className="text-xs text-gray-normal font-medium mb-2">Местоположение поставщика</div>
-                    <div className="rounded-md overflow-hidden border border-gray-light">
-                      <YMaps
-                        query={{
-                          apikey: '6ac6f908-12fc-4194-aa9f-99317ee0e17e'
-                        }}
-                      >
-                        <Map onClick={(e: any) => setCoordinates(e._sourceEvent.originalEvent.coords)} defaultState={{
-                          center: [41.18, 69.15],
-                          zoom: 10,
-                        }} className=" min-h-96" width={'100%'} height={'100%'}>
-                          <GeolocationControl options={{ float: "left" }} />
-                          {coordinates && <Placemark
-                            modules={["geoObject.addon.balloon"]}
-                            properties={{
-                              balloonContentHeader: 'Выбранное местоположение',
-                              balloonContentBody: address,
-                              balloonContentFooter: coordinates.join(', ')
-                            }}
-                            geometry={coordinates}
-                            options={{
-                              iconLayout: 'default#image',
-                              iconImageHref: '/images/balloon.svg',
-                              iconImageSize: [40, 45.5],
-                              iconImageOffset: [-15, -42],
-                            }}
-
-                          />}
-                        </Map>
-                      </YMaps>
-                    </div>
+                    <Map />
                   </div>
                 </div>
 

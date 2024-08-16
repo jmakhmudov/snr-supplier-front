@@ -16,16 +16,38 @@ export interface Picture {
   picture: string;
 }
 
+export interface ProductResponse {
+  links: {
+    next: string | null;
+    previours: string | null;
+  };
+  count: number;
+  total_pages: number;
+  current_page: number;
+  top: string | null;
+  data: Product[];
+  status: number;
+  message: string | null;
+}
+
 export interface Product {
   uuid: UUID;
   name: string;
   supplier: string;
-  descriptions: string;
+  description: string;
   picture: Picture;
   pictures: readonly Picture[];
   price: string;
   discount: string;
   is_top: boolean;
+  stock: number;
+  is_active: boolean;
+  is_blocked: boolean;
+  rating: string;
+  conversion: number;
+  for_shipment: number;
+  quantity_sold: number;
+  views: number;
 }
 
 export interface Basket {
@@ -40,8 +62,8 @@ export interface User {
   picture: Picture;
   company_name: string;
   inn: string;
-  latitude: string;
-  longtitude: string;
+  latitude: number;
+  longitude: number;
   basket: Basket[];
   total_price: number;
 }

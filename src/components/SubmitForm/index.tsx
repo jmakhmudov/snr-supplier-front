@@ -11,7 +11,7 @@ export default function SubmitForm({
 }: SubmitFormProps) {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending}>
+    <Button type="submit" disabled={pending} className="w-full">
       {
         pending ? 
         <span className="grid place-items-center">

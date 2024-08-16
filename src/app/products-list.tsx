@@ -2,15 +2,12 @@
 
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
-import { Product } from "@/types"
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react"
+import { ProductResponse } from "@/types";
+import { useState } from "react";
 
-import { BsThreeDots } from "react-icons/bs";
 
 interface ProductsListProps {
-  products: Product[]
+  products: ProductResponse
 }
 
 export default function ProductsList({
@@ -27,9 +24,9 @@ export default function ProductsList({
         setSearchQ={setQ}
       />
 
-      <div className="grid grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
         {
-          products.map((product) => (
+          products.data.map((product) => (
             <ProductCard key={product.uuid} product={product} />
           ))
         }

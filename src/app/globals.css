@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+EAN13+Text&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,4 +37,8 @@
 }
 
 * {
+}
+
+.barcode {
+  font-family: 'Libre Barcode EAN13 Text';
 }

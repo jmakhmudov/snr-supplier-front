@@ -56,10 +56,10 @@ export default function Sidebar() {
       </div>
 
       <div className="w-full">
-        <div className="flex items-center gap-3 cursor-pointer px-10 py-3">
+        <Link href={'/account'} className="flex items-center gap-3 cursor-pointer px-10 py-3">
           <div className="w-6 aspect-square bg-blue rounded-full"></div>
           <div className="">{user.company_name ? user.company_name : 'loading'}</div>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-3 cursor-pointer group px-10 py-3">
           <FiSettings size={20} className="group-hover:animate-spin" />

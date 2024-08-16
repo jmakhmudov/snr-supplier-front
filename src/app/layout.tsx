@@ -25,7 +25,7 @@ export default async function RootLayout({
       <body className={`${inter.className} bg-gray-light-0`}>
         {isAuthenticated && <Sidebar />}
 
-        <main className="px-3.5 pt-10 pb-24 md:px-16">
+        <main className="pl-64 pr-16 pt-10 pb-24">
           {children}
         </main>
       </body>
