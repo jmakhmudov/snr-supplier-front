@@ -16,7 +16,7 @@ export const verifyToken = async () => {
     return false;
   }
 
-  const { status } = await fetch(`${API_URL}/api/v1/clients/token-verify/`, {
+  const { detail } = await fetch(`${API_URL}/api/core/token/verify/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ export const verifyToken = async () => {
     body: JSON.stringify({ token })
   }).then(res => res.json());
 
-  if (!status) {
+  if (detail) {
     return false;
   }
 
@@ -33,9 +33,9 @@ export const verifyToken = async () => {
 
 export const login = async (formData: FormData) => {
   const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
-  formData.set('phone', phone);
+  formData.set('username', phone);
 
-  const data = await fetch(`${API_URL}/api/v1/suppliers/login/`, {
+  const data = await fetch(`${API_URL}/api/core/token/`, {
     method: 'POST',
     body: formData
   }).then(res => res.json());
@@ -60,7 +60,7 @@ export const signUp = async (formData: FormData) => {
 }
 
 export const verifyCode = async (formData: FormData) => {
-  const data = await fetch(`${API_URL}/api/v1/clients/verify/`, {
+  const data = await fetch(`${API_URL}/api/core/token/verify/`, {
     method: 'POST',
     body: formData
   }).then(res => res.json());

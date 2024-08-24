@@ -1,7 +1,7 @@
 'use client'
 
 import bg from '@/../public/images/bg.jpg';
-import Input from "@/components/Input";
+import Input from "@/components/ui/Input";
 import SubmitForm from "@/components/SubmitForm";
 import { InputMask } from "@react-input/mask";
 import Image from "next/image";
@@ -27,12 +27,6 @@ export default function LoginPage() {
 
   return (
     <div>
-      <header className="fixed top-0 left-0 right-0 p-3.5 md:px-16 flex items-center justify-between z-10">
-        <div></div>
-
-        <div>laguag</div>
-      </header>
-
       <div className="w-full flex items-center justify-between absolute top-0 bottom-0 left-0 right-0">
         <Image
           alt="bg"

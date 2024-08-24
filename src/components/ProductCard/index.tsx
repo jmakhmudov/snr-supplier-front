@@ -3,7 +3,7 @@
 import { Product } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { memo, useMemo, useState } from "react"
 
 import { BsLightningChargeFill, BsThreeDots } from "react-icons/bs"
 import { FiCheck } from "react-icons/fi"
@@ -132,7 +132,7 @@ export default function ProductCard({
   )
 }
 
-function ProductData({
+const  ProductData = memo(({
   label,
   value,
   icon,
@@ -140,7 +140,7 @@ function ProductData({
   label: string,
   value: string | number,
   icon?: React.ReactNode
-}) {
+}) => {
   return (
     <div className="flex items-center justify-between text-black text-opacity-50 text-[10px]">
       {label}
@@ -150,4 +150,4 @@ function ProductData({
       </span>
     </div>
   )
-}
+})

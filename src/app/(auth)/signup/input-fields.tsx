@@ -13,22 +13,6 @@ export const inputFields = [
     required: true
   },
   {
-    label: 'ИНН',
-    name: 'inn',
-    type: 'text',
-    placeholder: 'ИНН',
-    icon: <BiBuildings size={17} />,
-    required: true
-  },
-  {
-    label: 'Название компании',
-    name: 'company_name',
-    type: 'text',
-    placeholder: 'Название',
-    icon: <RiTextSnippet size={17} />,
-    required: true
-  },
-  {
     label: 'Пароль',
     name: 'password',
     type: 'password',

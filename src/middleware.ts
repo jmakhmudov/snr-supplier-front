@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verifyToken } from './utils/auth';
+import { refreshToken } from './utils/auth/refreshToken';
 
 export async function middleware(request: NextRequest) {
   try {
@@ -8,9 +9,13 @@ export async function middleware(request: NextRequest) {
     console.log('isAuthenticated', isAuthenticated);
 
     if (!isAuthenticated) {
-      request.cookies.delete('access');
-      request.cookies.delete('refresh');
-      return NextResponse.rewrite(new URL('/login', request.url));
+      const token = await refreshToken();
+      
+      if (!token) {
+        request.cookies.delete('access');
+        request.cookies.delete('refresh');      
+        return NextResponse.rewrite(new URL('/login', request.url));
+      }
     }
   } catch (error) {
     console.error('Middleware error:', error);

@@ -37,6 +37,7 @@
 }
 
 * {
+  box-sizing: border-box;
 }
 
 .barcode {

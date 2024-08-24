@@ -15,10 +15,11 @@ export async function loginAction(
 
   console.log(data)
 
-  if (!data.error) {
+  if (!data.detail) {
     console.log('logged in');
     const cookies = new Cookies();
     cookies.set('access', data.access);
+    cookies.set('refresh', data.refresh);
     
     window.location.href = '/';
     return {

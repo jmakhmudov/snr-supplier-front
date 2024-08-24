@@ -1,7 +1,7 @@
 import { useState } from "react";
-import RadioButton from "../Buttons/RadioButton"
+import RadioButton from "../ui/Buttons/RadioButton"
 import { Section } from "@/types";
-import CheckboxButton from "../Buttons/CheckboxButton";
+import CheckboxButton from "../ui/Buttons/CheckboxButton";
 
 interface FilterSectionProps {
   section: Section;

@@ -1,7 +1,7 @@
 'use client'
 
 import bg from '@/../public/images/bg.jpg';
-import Input from "@/components/Input";
+import Input from "@/components/ui/Input";
 import SubmitForm from '@/components/SubmitForm';
 import { getAddress } from "@/helpers/getAddress";
 import { InputMask } from "@react-input/mask";
@@ -78,12 +78,6 @@ export default function SignUpPage() {
 
   return (
     <div className="grid mt-10 mb-10">
-      <header className="absolute z-10 top-0 left-0 right-0 p-3.5 md:px-16 flex items-center justify-between">
-        <div></div>
-
-        <div>language</div>
-      </header>
-
       <div className="w-full flex items-center justify-between absolute top-0 bottom-0 left-0 right-0">
         <Image
           alt="bg"
@@ -97,20 +91,21 @@ export default function SignUpPage() {
           isSubmitted ?
             <EnterCode phone={phone} />
             :
-            <form className="w-full px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center" onSubmit={handleSignUp}>
-              <div className="w-full space-y-6">
+            <form className="md:w-2/3 w-full px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center" onSubmit={handleSignUp}>
+              <div className=" w-2/3 space-y-6">
                 <h1 className="font-bold text-2xl">Регистрация</h1>
 
                 <div className="md:gap-6 md:flex justify-between">
-                  <div className="grid gap-2 w-full md:w-1/2">
+                  <div className="grid gap-2 w-full">
                     <Input
                       label="Номер телефона"
                       variant="underlined"
                       icon={<FiPhone size={17} />}
+                      required
                     >
                       <InputMask
                         name="phone"
-                        className="w-full outline-none  placeholder-gray-normal"
+                        className="w-full outline-none placeholder-gray-normal bg-transparent"
                         placeholder="+998"
                         mask="+998 __ ___ __ __"
                         replacement={{ _: /\d/ }}
@@ -128,11 +123,6 @@ export default function SignUpPage() {
                         />
                       ))
                     }
-                  </div>
-
-                  <div className="mt-2 md:mt-1 md:w-1/2 w-full h-full">
-                    <div className="text-xs text-gray-normal font-medium mb-2">Местоположение поставщика</div>
-                    <Map />
                   </div>
                 </div>
 
@@ -152,7 +142,6 @@ export default function SignUpPage() {
             </form>
         }
       </div>
-
     </div>
   )
 }

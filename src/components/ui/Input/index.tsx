@@ -43,7 +43,7 @@ export default function Input({
             {icon}
           </span>
         }
-        {!children && <input className="outline-none w-full" {...inputProps} />}
+        {!children && <input className="outline-none w-full bg-transparent" {...inputProps} />}
         {children}
       </div>
     </div>

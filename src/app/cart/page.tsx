@@ -1,6 +1,6 @@
 'use client'
 
-import Button from "@/components/Buttons/Button";
+import Button from "@/components/ui/Buttons/Button";
 import { syncUserData } from "@/helpers/syncUserData";
 import { store } from "@/store"
 import { Basket } from "@/types";

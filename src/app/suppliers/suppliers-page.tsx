@@ -1,6 +1,6 @@
 'use client'
 
-import SearchBar from "@/components/SearchBar";
+import SearchBar from "@/components/ui/SearchBar";
 import { ChangeEvent, useState } from "react";
 
 export default function SuppliersPageList() {

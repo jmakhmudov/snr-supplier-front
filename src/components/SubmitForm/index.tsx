@@ -1,6 +1,6 @@
 import { useFormStatus } from "react-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import Button from "../Buttons/Button";
+import Button from "../ui/Buttons/Button";
 
 interface SubmitFormProps {
   children: React.ReactNode;

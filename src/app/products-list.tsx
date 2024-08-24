@@ -1,7 +1,7 @@
 'use client'
 
 import ProductCard from "@/components/ProductCard";
-import SearchBar from "@/components/SearchBar";
+import SearchBar from "@/components/ui/SearchBar";
 import { ProductResponse } from "@/types";
 import { useState } from "react";
 
@@ -14,6 +14,7 @@ export default function ProductsList({
   products
 }: ProductsListProps) {
   const [q, setQ] = useState('');
+
   return (
     <section className="mt-5">
 
@@ -24,13 +25,20 @@ export default function ProductsList({
         setSearchQ={setQ}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
-        {
-          products.data.map((product) => (
-            <ProductCard key={product.uuid} product={product} />
-          ))
-        }
-      </div>
+      {
+        products.data.length > 0 ?
+          <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
+            {
+              products.data.map((product) => (
+                <ProductCard key={product.uuid} product={product} />
+              ))
+            }
+          </div>
+          :
+          <div className="w-full text-center grid place-items-center mt-6 h-[60vh] font-medium text-gray-normal">
+            Товаров нет
+          </div>
+      }
     </section>
   )
 }

@@ -1,13 +1,13 @@
 'use client'
 
-import Button from "@/components/Buttons/Button";
+import Button from "@/components/ui/Buttons/Button";
 
 import { RiFileAddLine } from "react-icons/ri";
 import { FiUpload } from "react-icons/fi";
-import Input from "@/components/Input";
+import Input from "@/components/ui/Input";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import Select from "@/components/Select";
+import Select from "@/components/ui/Select";
 
 export default function NewProductPage() {
   const searchParams = useSearchParams();

@@ -1,18 +1,15 @@
 'use client'
 
+import logo from '@/../public/images/snr-logo.svg';
 import Image from "next/image";
-import logo from '@/../public/images/snr-logo.svg'
 import Link from "next/link";
 
-import { RiArchiveDrawerLine } from "react-icons/ri";
-import { TbCube } from "react-icons/tb";
-import { MdOutlineQueryStats } from "react-icons/md";
+import { syncUserData } from "@/helpers/syncUserData";
+import { store } from "@/store";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { FiSettings } from "react-icons/fi";
 import { useSnapshot } from "valtio";
-import { store } from "@/store";
-import { syncUserData } from "@/helpers/syncUserData";
-import { useEffect } from "react";
-import { usePathname } from "next/navigation";
 import { navLink } from "./nav-links";
 
 export default function Sidebar() {
@@ -28,7 +25,7 @@ export default function Sidebar() {
   }, [])
 
   return (
-    <div className="z-50 fixed left-0 top-0 bottom-0 border flex flex-col items-center justify-between bg-white py-8">
+    <div className="z-50 fixed left-0 top-0 bottom-0 border flex flex-col items-center justify-between bg-white py-8 w-[210px]">
       <div className=" space-y-10 grid place-items-center w-full">
         <Link href={'/'}>
           <Image
