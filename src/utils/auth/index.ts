@@ -9,9 +9,7 @@ export const logout = async () => {
   cookies().delete('refresh');
 }
 
-export const verifyToken = async () => {
-  const token = cookies().get('access')?.value;
-
+export const verifyToken = async (token: string) => {
   if (!token) {
     return false;
   }
@@ -29,6 +27,23 @@ export const verifyToken = async () => {
   }
 
   return true;
+}
+
+export const refreshToken = async (refreshToken: string) => {
+  const { detail, access } = await fetch(`${API_URL}/api/core/token/refresh/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refresh: refreshToken })
+  }).then(res => res.json());
+ 
+  if (detail) {
+    return false;
+  }
+
+  console.log('ACCESSS', access)
+  return access;
 }
 
 export const login = async (formData: FormData) => {

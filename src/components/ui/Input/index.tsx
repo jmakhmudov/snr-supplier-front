@@ -18,7 +18,7 @@ export default function Input({
   children,
   ...inputProps
 }: InputProps) {
-  const baseClasses = "flex items-center gap-2 text-sm py-2 data-[alert=true]:border-red-500 focus:outline-none fo";
+  const baseClasses = "flex items-center gap-2 text-sm py-2 data-[alert=true]:border-red-500 focus:outline-none";
   const variantClasses = {
     default: "border border-gray-normal rounded-lg px-4",
     underlined: "border-b border-blue",

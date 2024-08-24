@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 
 interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -59,6 +59,16 @@ export default function Select({
   const handleOptionClick = (option: string) => {
     setInput(option);
     setShowOptions(false);
+    
+    const mockEvent: ChangeEvent<HTMLInputElement> = {
+      target: {
+        value: option,
+      } as HTMLInputElement
+    } as ChangeEvent<HTMLInputElement>;
+  
+    if (inputProps.onChange) {
+      inputProps.onChange(mockEvent);
+    }
   };
 
   const baseClasses = "flex items-center gap-2 text-sm py-2 data-[alert=true]:border-red-500 focus:outline-none cursor-pointer relative";
@@ -91,7 +101,7 @@ export default function Select({
       </div>
 
       {showOptions && (
-        <div className="absolute bg-white border border-gray-normal rounded-md shadow-sm w-full divide-y">
+        <div className="absolute bg-white border border-gray-normal rounded-md shadow-sm w-full divide-y z-50">
           {filteredOptions.map((option, index) => (
             <div
               key={index}

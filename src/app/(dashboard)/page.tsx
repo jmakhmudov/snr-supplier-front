@@ -1,9 +1,8 @@
-import { Product, ProductResponse } from "@/types";
-import { cookies } from "next/headers";
-import ProductsList from "./products-list";
+import Button from "@/components/ui/Buttons/Button";
+import { ProductResponse } from "@/types";
 import { getProducts } from "@/utils/products";
 import Link from "next/link";
-import Button from "@/components/ui/Buttons/Button";
+import ProductsList from "../products-list";
 
 export default async function Home() {
   const products: ProductResponse = await getProducts();

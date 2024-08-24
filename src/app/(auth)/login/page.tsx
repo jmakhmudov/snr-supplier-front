@@ -59,6 +59,7 @@ export default function LoginPage() {
                   placeholder="+998"
                   mask="+998 __ ___ __ __"
                   replacement={{ _: /\d/ }}
+                  defaultValue="+998"
                   required
                 />
               </Input>

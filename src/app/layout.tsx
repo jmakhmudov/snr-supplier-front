@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import { verifyToken } from "@/utils/auth";
-import Sidebar from "@/components/Sidebar";
-
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,16 +14,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isAuthenticated = await verifyToken();
-
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-light-0`}>
-        {isAuthenticated && <Sidebar />}
-
-        <main className="pl-64 pr-16 pt-10 pb-24">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );
