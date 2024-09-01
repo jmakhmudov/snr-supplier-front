@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { refreshToken, verifyToken } from './utils/api/auth';
+import { getUser, refreshToken, verifyToken } from './utils/api/auth';
 
 export async function middleware(request: NextRequest) {
   try {
     const isAuthenticated = await verifyToken(request.cookies.get('access')?.value as string);
     console.log('isAuthenticated', isAuthenticated);
+    const user = await getUser();
 
     if (!isAuthenticated) {
       const token = await refreshToken(request.cookies.get('refresh')?.value as string);
@@ -25,6 +26,15 @@ export async function middleware(request: NextRequest) {
 
       return response;
     }
+    if (!user.company) {
+      const url = request.nextUrl.pathname;
+
+      if (url.startsWith('/join/')) {
+        return NextResponse.next();
+      }
+      
+      return NextResponse.rewrite(new URL('/waiting', request.url));
+    }
   } catch (error) {
     console.error('Middleware error:', error);
   }
@@ -32,7 +42,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next|api|signup|images).*)(.+)',
+    '/((?!_next|api|signup|media).*)(.+)',
     '/'
   ],
 };
