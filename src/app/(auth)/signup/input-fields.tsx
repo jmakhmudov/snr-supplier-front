@@ -22,7 +22,7 @@ export const inputFields = [
   },
   {
     label: 'Подтвердите пароль',
-    name: 'password',
+    name: 'password_confirmation',
     type: 'password',
     placeholder: '********',
     icon: <FiLock size={17} />,

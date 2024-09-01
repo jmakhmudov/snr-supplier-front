@@ -4,13 +4,13 @@ import logo from '@/../public/images/snr-logo.svg';
 import Image from "next/image";
 import Link from "next/link";
 
-import { syncUserData } from "@/helpers/syncUserData";
 import { store } from "@/store";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { FiSettings } from "react-icons/fi";
 import { useSnapshot } from "valtio";
 import { navLink } from "./nav-links";
+import { syncUserData } from '@/utils/api/syncUserData';
 
 export default function Sidebar() {
   const { user } = useSnapshot(store);
@@ -55,8 +55,8 @@ export default function Sidebar() {
 
       <div className="w-full">
         <Link href={'/account'} className="flex items-center gap-3 cursor-pointer px-10 py-3">
-          <div className="w-6 aspect-square bg-blue rounded-full"></div>
-          <div className="">{user.company_name ? user.company_name : 'loading'}</div>
+          <div className="w-6 h-6 aspect-square bg-blue rounded-full"></div>
+          <div className="text-xs font-medium">{user.full_name || 'loading'}</div>
         </Link>
 
         <div className="flex items-center gap-3 cursor-pointer group px-10 py-3">

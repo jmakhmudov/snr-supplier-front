@@ -1,4 +1,4 @@
-import { login } from "@/utils/auth";
+import { login } from "@/utils/api/auth";
 import Cookies from "universal-cookie";
 
 export interface FormState {

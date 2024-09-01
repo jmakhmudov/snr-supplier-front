@@ -55,7 +55,7 @@ export default function LoginPage() {
               >
                 <InputMask
                   name="phone"
-                  className="w-full outline-none  placeholder-gray-normal"
+                  className="w-full outline-none  placeholder-gray-normal bg-transparent"
                   placeholder="+998"
                   mask="+998 __ ___ __ __"
                   replacement={{ _: /\d/ }}

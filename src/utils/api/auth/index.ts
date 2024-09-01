@@ -37,7 +37,7 @@ export const refreshToken = async (refreshToken: string) => {
     },
     body: JSON.stringify({ refresh: refreshToken })
   }).then(res => res.json());
- 
+
   if (detail) {
     return false;
   }
@@ -62,11 +62,29 @@ export const login = async (formData: FormData) => {
 
 export const signUp = async (formData: FormData) => {
   const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
-  formData.set('phone', phone);
+  const full_name = formData.get('full_name') as string;
+  const password = formData.get('password') as string;
+  const password_confirmation = formData.get('password_confirmation') as string;
 
-  const data = await fetch(`${API_URL}/api/v1/clients/new/`, {
+  const body = {
+    user: {
+      username: phone,
+      password,
+      password_confirmation
+    },
+    role: null,
+    is_supplier: true,
+    full_name
+  }
+
+  console.log(JSON.stringify(body));
+
+  const data = await fetch(`${API_URL}/api/account/register/`, {
     method: 'POST',
-    body: formData
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
   }).then(res => res.json())
 
   console.log(data);
@@ -79,8 +97,21 @@ export const verifyCode = async (formData: FormData) => {
     method: 'POST',
     body: formData
   }).then(res => res.json());
-  
+
   console.log(data);
 
   return data;
+}
+
+
+export const getUser = async () => {
+  const updatedUser = await fetch(`${API_URL}/api/account/user/info/`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`,
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json());
+
+  return updatedUser;
 }

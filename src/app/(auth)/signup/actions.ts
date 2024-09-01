@@ -1,4 +1,4 @@
-import { signUp, verifyCode } from "@/utils/auth";
+import { signUp, verifyCode } from "@/utils/api/auth";
 import Cookies from "universal-cookie";
 
 interface State {

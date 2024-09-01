@@ -1,6 +1,6 @@
 import Button from "@/components/ui/Buttons/Button";
 import { ProductResponse } from "@/types";
-import { getProducts } from "@/utils/products";
+import { getProducts } from "@/utils/api/products";
 import Link from "next/link";
 import ProductsList from "../products-list";
 

@@ -1,5 +1,5 @@
 import { Product } from "@/types";
-import { getProductById } from "@/utils/products";
+import { getProductById } from "@/utils/api/products";
 import Image from "next/image";
 
 export default async function ProductPage({

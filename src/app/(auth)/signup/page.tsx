@@ -1,19 +1,19 @@
 'use client'
 
 import bg from '@/../public/images/bg.jpg';
-import Input from "@/components/ui/Input";
 import SubmitForm from '@/components/SubmitForm';
-import { getAddress } from "@/helpers/getAddress";
+import Input from "@/components/ui/Input";
 import { InputMask } from "@react-input/mask";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { FiPhone } from "react-icons/fi";
 import { MdOutlinePassword } from "react-icons/md";
 import { signUpAction, verifyCodeAction } from "./actions";
 import { inputFields } from "./input-fields";
-import Map from '@/components/Map';
+import Button from '@/components/ui/Buttons/Button';
+import Link from 'next/link';
+
 
 function EnterCode({ phone }: { phone: string }) {
   const [state, verify] = useFormState(verifyCodeAction, {
@@ -27,6 +27,8 @@ function EnterCode({ phone }: { phone: string }) {
       setShowAlert(true);
     }
   }, [state])
+
+
 
   return (
     <div className="w-full md:w-2/3 px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center">
@@ -58,8 +60,29 @@ function EnterCode({ phone }: { phone: string }) {
   )
 }
 
+function SuccessfulRegistration() {
+  return (
+    <div className="w-full md:w-2/3 px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center">
+      <div className="w-full">
+        <div className='space-y-4'>
+          <h1 className="font-bold text-2xl">Вы успешно зарегестрировались!</h1>
+          <p className="text-gray-normal text-sm">Теперь вы можете войти в личный кабинет.</p>
+        </div>
+
+        <div className='mt-10'>
+        <Link href={'/login'}>
+          <Button type="submit" className="w-full">Войти</Button>
+        </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function SignUpPage() {
-  const [state, signUp] = useFormState(signUpAction, null);
+  const [state, signUp] = useFormState(signUpAction, {
+    message: ''
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [phone, setPhone] = useState('');
 
@@ -70,7 +93,7 @@ export default function SignUpPage() {
   };
 
   useEffect(() => {
-    if (state) {
+    if (state.message === "User registered successfully.") {
       setIsSubmitted(true);
     }
   }, [state])
@@ -89,7 +112,7 @@ export default function SignUpPage() {
 
         {
           isSubmitted ?
-            <EnterCode phone={phone} />
+            <SuccessfulRegistration />
             :
             <form className="md:w-2/3 w-full px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center" onSubmit={handleSignUp}>
               <div className=" w-2/3 space-y-6">

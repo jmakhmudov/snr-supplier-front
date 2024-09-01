@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { refreshToken, verifyToken } from './utils/auth';
+import { refreshToken, verifyToken } from './utils/api/auth';
 
 export async function middleware(request: NextRequest) {
   try {
