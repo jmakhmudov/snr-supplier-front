@@ -33,6 +33,8 @@ export default function Map({
     setAddress(add);
   }
 
+  console.log(coordinates)
+
   return (
     <div className="rounded-md overflow-hidden border border-gray-light">
 
@@ -48,9 +50,9 @@ export default function Map({
           onClick={handlePositionSelect}
           defaultState={{
             center: defaultCoordinates || [41.18, 69.15],
-            zoom: defaultCoordinates ? 18 : 10,
+            zoom: 15,
           }}
-          className=" min-h-96"
+          className=" min-h-60"
           width={'100%'}
           height={'100%'}
         >

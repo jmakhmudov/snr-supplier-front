@@ -40,17 +40,14 @@ export default function Sidebar() {
 
       </div>
 
-      <div className="w-full">
-        <Link href={'/account'} className="flex items-center gap-3 cursor-pointer px-10 py-3">
-          <div className="w-6 h-6 aspect-square bg-blue rounded-full"></div>
-          <div className="text-xs font-medium">Аккаунт</div>
-        </Link>
-
-        <div className="flex items-center gap-3 cursor-pointer group px-10 py-3">
-          <FiSettings size={20} className="group-hover:animate-spin" />
-          <div>Настройки</div>
-        </div>
-      </div>
+      <Link 
+      href={'/account'} 
+      data-isActive={pathname === '/account'}
+      className="flex items-center gap-3 cursor-pointer hover:bg-blue-light hover:text-blue w-full px-10 py-3 hover:border-r-2 border-blue transition-all duration-150 data-[isActive=true]:text-blue"
+      >
+        <FiSettings size={20} className="group-hover:animate-spin" />
+        <div>Аккаунт</div>
+      </Link>
     </div>
   )
 }

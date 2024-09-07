@@ -4,16 +4,16 @@ import { cookies } from "next/headers";
 
 const API_URL = process.env.API_URL;
 
-export const getProductById = async (productId: string) => {
+export const getProductBySlug = async (slug: string) => {
   try {
-    const products = await fetch(`${API_URL}/api/v1/suppliers/products/${productId}`, {
+    const product = await fetch(`${API_URL}/api/product/products/${slug}/`, {
       headers: {
         Authorization: `Bearer ${cookies().get('access')?.value}`
       }
     }).then(res => res.json());
-
-    if (!products.detail) {
-      return products;
+    console.log(slug, product);
+    if (!product.detail) {
+      return product;
     }
 
     return {};
@@ -25,7 +25,7 @@ export const getProductById = async (productId: string) => {
 
 export const getProducts = async () => {
   try {
-    const products = await fetch(`${API_URL}/api/v1/suppliers/products/`, {
+    const products = await fetch(`${API_URL}/api/product/my-company-products/`, {
       headers: {
         Authorization: `Bearer ${cookies().get('access')?.value}`
       }
@@ -38,4 +38,20 @@ export const getProducts = async () => {
       data: []
     };
   }
+}
+
+export const patchProduct = async (field: string, value: string, slug: string) => {
+  console.log(slug)
+  const res = await fetch(`${API_URL}/api/product/products/${slug}/update/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    body: JSON.stringify({
+      [field]: value
+    })
+  }).then(res => res.json());
+  
+  return res;
 }

@@ -26,10 +26,10 @@ export default function ProductsList({
       />
 
       {
-        products.data.length > 0 ?
+        products.results.length > 0 ?
           <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
             {
-              products.data.map((product) => (
+              products.results.map((product) => (
                 <ProductCard key={product.uuid} product={product} />
               ))
             }

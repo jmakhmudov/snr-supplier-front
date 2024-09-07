@@ -42,7 +42,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next|api|signup|media).*)(.+)',
+    '/((?!_next|api|signup|media|images).*)(.+)',
     '/'
   ],
 };

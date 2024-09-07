@@ -30,7 +30,7 @@ export default async function JoinPage({
             />
           }
         </div>
-        <h2 className="font-semibold">{invitation.company.company_name}</h2>
+        <h2 className="font-semibold">{invitation.company.name}</h2>
         <div className="text-black text-opacity-50 text-sm">Роль: <span className="text-black font-medium">{invitation.assigned_role}</span></div>
 
         <ApproveInvitation token={params.token} />

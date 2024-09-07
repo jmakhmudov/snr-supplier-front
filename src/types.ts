@@ -24,30 +24,37 @@ export interface ProductResponse {
   count: number;
   total_pages: number;
   current_page: number;
-  top: string | null;
-  data: Product[];
-  status: number;
-  message: string | null;
+  results: Product[];
 }
 
 export interface Product {
-  uuid: UUID;
-  name: string;
-  supplier: string;
-  description: string;
-  picture: Picture;
-  pictures: readonly Picture[];
-  price: string;
-  discount: string;
+  id: number;
+  name_ru: string;
+  name_uz: string;
+  description_ru: string;
+  description_uz: string;
+  barcode: string;
+  quantity: number;
   is_top: boolean;
-  stock: number;
+  price: string;
+  manufacture_date: Date | null;
+  storage_life: string | null;
+  slug: string;
   is_active: boolean;
-  is_blocked: boolean;
-  rating: string;
-  conversion: number;
-  for_shipment: number;
-  quantity_sold: number;
-  views: number;
+  images: {
+    image: string;
+  }[];
+  category: {
+    id: number;
+    name_ru: string;
+    name_uz: string;
+    parent_category: {
+      id: number;
+      name_ru: string;
+      name_uz: string;
+      direction: 'food' | 'nonfood';
+    }
+  }
 }
 
 export interface Basket {
@@ -55,15 +62,20 @@ export interface Basket {
   quantity: number;
 }
 
-export interface User {
-  full_name: string;
-  phone: string;
-  email: string;
-  picture: Picture;
-  company_name: string;
+export interface Company {
+  company_profile: string;
   inn: string;
-  latitude: number;
-  longitude: number;
-  basket: Basket[];
-  total_price: number;
+  address: string | null;
+  phone_number: string;
+  lat: number;
+  lon: number;
+  logo: string | null;
+}
+
+export interface User {
+  username: string;
+  full_name: string;
+  role: 'ADMIN' | 'MANAGER' | 'AGENT';
+  is_supplier: boolean;
+  company: Company | null;
 }

@@ -11,6 +11,7 @@ import { FaStar } from "react-icons/fa";
 import { IoMdEye } from "react-icons/io";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { MdBlock } from "react-icons/md";
+import { patchProduct } from "@/utils/api/products"
 
 interface ProductProps {
   product: Product
@@ -20,6 +21,7 @@ export default function ProductCard({
   product
 }: ProductProps) {
   const [showOptions, setShowOptions] = useState(false);
+  const [currProduct, setCurrProduct] = useState(product);
 
   const handleMoreOptions = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.preventDefault();
@@ -28,26 +30,23 @@ export default function ProductCard({
     setShowOptions(!showOptions);
   }
 
+  const handleUpdateStatus = async (isActive: boolean) => {
+    try {
+      const updatedProduct = await patchProduct('is_active', String(isActive), currProduct.slug);
+      setCurrProduct(updatedProduct);
+    } catch (error) {
+      console.error('Failed to update product status', error);
+    }
+  }
+
   return (
     <Link
-      href={`/products/${product.uuid}`}
-      data-blocked={product.is_blocked}
-      className="bg-white p-3 grid gap-3 rounded-xl hover:shadow-sm select-none relative overflow-hidden data-[blocked=true]:border data-[blocked=true]:border-red-200"
+      href={`/products/${currProduct.slug}`}
+      className="bg-white p-3 grid gap-3 rounded-xl hover:shadow-sm select-none relative overflow-hidden"
     >
-      {
-        product.is_blocked &&
-        <div
-          className="absolute top-0 bottom-0 right-0 left-0 grid place-items-center bg-red-500 bg-opacity-10 z-10 backdrop-blur-sm font-semibold text-red-500"
-        >
-          <div className="flex items-center gap-2">
-            <MdBlock />
-            Заблокирован
-          </div>
-        </div>
-      }
       <div className="absolute top-0 left-0 p-5 grid gap-2">
         {
-          !product.is_top &&
+          currProduct.is_top &&
           <div title="В топе" className="flex items-center gap-2 group text-blue">
             <BsLightningChargeFill />
 
@@ -56,7 +55,7 @@ export default function ProductCard({
         }
 
         {
-          product.discount &&
+          currProduct.discount &&
           <div title="На акции" className="flex items-center gap-2 group text-orange-500">
             <RiDiscountPercentFill />
 
@@ -65,19 +64,24 @@ export default function ProductCard({
         }
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-4">
         <div className="grid gap-2 w-1/2">
-          <Image
-            src={product.picture.picture}
-            alt={product.name}
-            width={150}
-            height={150}
-            className="object-cover w-[150px] aspect-square rounded-lg border border-gray-light"
-          />
+          {
+            currProduct.images.length > 0 ?
+              <Image
+                src={currProduct.images[0].image}
+                alt={currProduct.name_ru}
+                width={150}
+                height={150}
+                className="object-contain w-full aspect-square rounded-lg border border-gray-light"
+              />
+              :
+              <div className="bg-gray-light w-full aspect-square rounded-lg border border-gray-light"></div>
+          }
 
           <div className="flex items-center justify-between gap-1">
             {
-              product.is_active ?
+              currProduct.is_active ?
                 <div className="bg-blue-light text-blue rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">Активен</div>
                 :
                 <div className="bg-red-100 text-red-500 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">Неактивен</div>
@@ -92,11 +96,18 @@ export default function ProductCard({
                 data-showOptions={showOptions}
                 className="hidden absolute -right-24 bottom-0 bg-gray-light-0 rounded-lg text-xs overflow-hidden data-[showOptions=true]:block border border-gray-light"
               >
-                <div className="px-3 py-1.5 hover:bg-gray-light border-b border-gray-light flex items-center gap-1">
-                  <FiCheck />
+                <div
+                  className="px-3 py-1.5 hover:bg-gray-light border-b border-gray-light flex items-center gap-1"
+                  onClick={() => handleUpdateStatus(true)}
+                >
+                  {currProduct.is_active && <FiCheck />}
                   Активный
                 </div>
-                <div className="px-3 py-1.5 hover:bg-gray-light flex items-center gap-1">
+                <div
+                  className="px-3 py-1.5 hover:bg-gray-light border-b border-gray-light flex items-center gap-1"
+                  onClick={() => handleUpdateStatus(false)}
+                >
+                  {!currProduct.is_active && <FiCheck />}
                   Неактивный
                 </div>
               </div>
@@ -106,39 +117,39 @@ export default function ProductCard({
         </div>
 
         <div className="w-1/2 flex flex-col gap-2">
-          <div className="text-xs font-semibold line-clamp-3 min-h-12">{product.name}</div>
+          <div className="text-xs font-semibold line-clamp-3 min-h-12">{currProduct.name_ru}</div>
 
           <div className="grid gap-1">
-            <ProductData label="Рейтинг" value={product.rating} icon={<FaStar size={8} />} />
-            <ProductData label="Просмотры" value={product.views} icon={<IoMdEye size={10} />} />
-            <ProductData label="Конверсия" value={`${product.conversion}%`} />
-            <ProductData label="Продано" value={`${product.quantity_sold} шт.`} />
-            <ProductData label="Скидка" value={`${product.discount}%`} />
+            <ProductData label="Рейтинг" value={currProduct.rating} icon={<FaStar size={8} />} />
+            <ProductData label="Просмотры" value={currProduct.views} icon={<IoMdEye size={10} />} />
+            <ProductData label="Конверсия" value={`${currProduct.conversion}%`} />
+            <ProductData label="Продано" value={`${currProduct.quantity_sold} шт.`} />
+            <ProductData label="Скидка" value={`${currProduct.discount}%`} />
           </div>
         </div>
       </div>
 
       <div className="grid gap-4">
         <div className="flex items-center justify-between gap-1">
-          <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">На складе {product.stock}</div>
+          <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">На складе {currProduct.quantity}</div>
 
           <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">К отправке 0</div>
         </div>
 
-        <div className="font-semibold text-sm text-center">от {Number(product.price).toLocaleString('ru')} сум</div>
+        <div className="font-semibold text-sm text-center">от {Number(currProduct.price).toLocaleString('ru')} сум</div>
       </div>
 
     </Link>
   )
 }
 
-const  ProductData = memo(({
+const ProductData = memo(({
   label,
   value,
   icon,
 }: {
   label: string,
-  value: string | number,
+  value: string | number | undefined,
   icon?: React.ReactNode
 }) => {
   return (
@@ -146,7 +157,7 @@ const  ProductData = memo(({
       {label}
       <span className="text-black flex items-center gap-0.5">
         {icon}
-        {value}
+        {value || '-'}
       </span>
     </div>
   )
