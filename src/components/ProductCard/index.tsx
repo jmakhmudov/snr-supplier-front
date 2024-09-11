@@ -2,16 +2,15 @@
 
 import { Product } from "@/types"
 import Image from "next/image"
-import Link from "next/link"
-import { memo, useMemo, useState } from "react"
+import { memo, useState } from "react"
 
-import { BsLightningChargeFill, BsThreeDots } from "react-icons/bs"
-import { FiCheck } from "react-icons/fi"
-import { FaStar } from "react-icons/fa";
-import { IoMdEye } from "react-icons/io";
-import { RiDiscountPercentFill } from "react-icons/ri";
-import { MdBlock } from "react-icons/md";
 import { patchProduct } from "@/utils/api/products"
+import { BsLightningChargeFill, BsThreeDots } from "react-icons/bs"
+import { FaStar } from "react-icons/fa"
+import { FiCheck } from "react-icons/fi"
+import { IoMdEye } from "react-icons/io"
+import { MdOutlineHideImage } from "react-icons/md"
+import { RiDiscountPercentFill } from "react-icons/ri"
 
 interface ProductProps {
   product: Product
@@ -33,16 +32,19 @@ export default function ProductCard({
   const handleUpdateStatus = async (isActive: boolean) => {
     try {
       const updatedProduct = await patchProduct('is_active', String(isActive), currProduct.slug);
-      setCurrProduct(updatedProduct);
+      setCurrProduct((prevProduct) => ({
+        ...prevProduct,
+        ...updatedProduct,
+      }));
     } catch (error) {
       console.error('Failed to update product status', error);
     }
   }
 
   return (
-    <Link
+    <a
       href={`/products/${currProduct.slug}`}
-      className="bg-white p-3 grid gap-3 rounded-xl hover:shadow-sm select-none relative overflow-hidden"
+      className="bg-white p-3 flex flex-col justify-between gap-3 rounded-xl hover:shadow-sm select-none relative overflow-hidden"
     >
       <div className="absolute top-0 left-0 p-5 grid gap-2">
         {
@@ -64,7 +66,7 @@ export default function ProductCard({
         }
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 h-full">
         <div className="grid gap-2 w-1/2">
           {
             currProduct.images.length > 0 ?
@@ -76,10 +78,12 @@ export default function ProductCard({
                 className="object-contain w-full aspect-square rounded-lg border border-gray-light"
               />
               :
-              <div className="bg-gray-light w-full aspect-square rounded-lg border border-gray-light"></div>
+              <div className="bg-gray-light w-full aspect-square rounded-lg border border-gray-light grid place-items-center">
+                <MdOutlineHideImage size={50} className="text-gray-light-0" />
+              </div>
           }
 
-          <div className="flex items-center justify-between gap-1">
+          <div className="flex items-center justify-between gap-1 w-full">
             {
               currProduct.is_active ?
                 <div className="bg-blue-light text-blue rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">Активен</div>
@@ -94,7 +98,7 @@ export default function ProductCard({
             >
               <div
                 data-showOptions={showOptions}
-                className="hidden absolute -right-24 bottom-0 bg-gray-light-0 rounded-lg text-xs overflow-hidden data-[showOptions=true]:block border border-gray-light"
+                className="hidden absolute -right-28 bottom-0 bg-gray-light-0 rounded-lg text-xs overflow-hidden data-[showOptions=true]:block border border-gray-light"
               >
                 <div
                   className="px-3 py-1.5 hover:bg-gray-light border-b border-gray-light flex items-center gap-1"
@@ -136,10 +140,10 @@ export default function ProductCard({
           <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">К отправке 0</div>
         </div>
 
-        <div className="font-semibold text-sm text-center">от {Number(currProduct.price).toLocaleString('ru')} сум</div>
+        <div className="font-semibold text-sm text-center">{Number(currProduct.price).toLocaleString('ru')} сум</div>
       </div>
 
-    </Link>
+    </a>
   )
 }
 

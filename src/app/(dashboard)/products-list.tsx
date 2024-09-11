@@ -2,16 +2,16 @@
 
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/ui/SearchBar";
-import { ProductResponse } from "@/types";
+import { Category, ProductResponse } from "@/types";
 import { useState } from "react";
 
 
 interface ProductsListProps {
-  products: ProductResponse
+  products: ProductResponse;
 }
 
 export default function ProductsList({
-  products
+  products,
 }: ProductsListProps) {
   const [q, setQ] = useState('');
 
@@ -27,10 +27,10 @@ export default function ProductsList({
 
       {
         products.results.length > 0 ?
-          <div className="grid grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-4 mt-6">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 mt-6">
             {
               products.results.map((product) => (
-                <ProductCard key={product.uuid} product={product} />
+                <ProductCard key={product.slug} product={product} />
               ))
             }
           </div>

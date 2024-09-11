@@ -1,17 +1,24 @@
 'use server'
 
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { NewProduct } from "@/types";
 
 const API_URL = process.env.API_URL;
 
 export const getProductBySlug = async (slug: string) => {
   try {
+    const _cookies = cookies()
     const product = await fetch(`${API_URL}/api/product/products/${slug}/`, {
       headers: {
-        Authorization: `Bearer ${cookies().get('access')?.value}`
-      }
+        Authorization: `Bearer ${_cookies.get('access')?.value}`
+      },
+      cache: 'no-store',
     }).then(res => res.json());
+
     console.log(slug, product);
+    revalidatePath(`/`)
+
     if (!product.detail) {
       return product;
     }
@@ -28,7 +35,8 @@ export const getProducts = async () => {
     const products = await fetch(`${API_URL}/api/product/my-company-products/`, {
       headers: {
         Authorization: `Bearer ${cookies().get('access')?.value}`
-      }
+      },
+      cache: 'no-store',
     }).then(res => res.json());
 
     return products;
@@ -50,8 +58,24 @@ export const patchProduct = async (field: string, value: string, slug: string) =
     },
     body: JSON.stringify({
       [field]: value
-    })
+    }),
+    cache: 'no-store',
   }).then(res => res.json());
-  
+
   return res;
+}
+
+export const deleteProduct = async (slug: string) => {
+  const res = await fetch(`${API_URL}/api/product/products/${slug}/delete/`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    cache: 'no-store',
+  });
+}
+
+export const createProduct = async (product: NewProduct) => {
+  
+  console.log()
 }

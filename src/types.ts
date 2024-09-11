@@ -37,7 +37,7 @@ export interface Product {
   quantity: number;
   is_top: boolean;
   price: string;
-  manufacture_date: Date | null;
+  manufacture_date: string | null;
   storage_life: string | null;
   slug: string;
   is_active: boolean;
@@ -55,6 +55,34 @@ export interface Product {
       direction: 'food' | 'nonfood';
     }
   }
+}
+
+export interface Category {
+  id: number;
+  name_ru: string;
+  name_uz: string;
+  direction: 'food' | 'nonfood';
+  sub_categories: {
+    id: number;
+    name_ru: string;
+    name_uz: string;
+    parent_category: number
+  }[]
+}
+
+export interface NewProduct {
+  name_ru: string;
+  name_uz: string;
+  description_ru: string;
+  description_uz: string;
+  barcode: string;
+  quantity: number;
+  is_top: boolean;
+  price: string;
+  manufacture_date: string;
+  storage_life: string;
+  is_active: boolean;
+  category: number;
 }
 
 export interface Basket {

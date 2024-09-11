@@ -2,18 +2,32 @@
 
 import Button from "@/components/ui/Buttons/Button";
 
-import { RiFileAddLine } from "react-icons/ri";
-import { FiUpload } from "react-icons/fi";
 import Input from "@/components/ui/Input";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FiUpload } from "react-icons/fi";
+import { RiFileAddLine } from "react-icons/ri";
+import { createProductAction } from "./actions";
+import { getSubCategories } from "@/utils/api/categories";
 
 export default function NewProductPage() {
   const searchParams = useSearchParams();
   const queryParams = new URLSearchParams(searchParams.toString());
+  const [categories, setCategories] = useState([])
+  console.log(categories.map((category) => category.name_ru))
+
+  useEffect(() => {
+    async function fetchCat() {
+      const categories = await getSubCategories();
+      setCategories(categories);
+    }
+
+    fetchCat();
+  }, [])
 
   const updateURLParams = (key: string, value: any) => {
     queryParams.set(key, value as string);
@@ -68,7 +82,7 @@ export default function NewProductPage() {
       <section className="bg-white rounded-xl px-8 py-6 space-y-8">
         <div className="text-sm"><span className="text-red-500">*</span> обязательное поле</div>
 
-        <form className="grid gap-5" onSubmit={handleNextStep}>
+        <form action={createProductAction} className="grid gap-5" onSubmit={handleNextStep}>
           <Select
             name="is_food"
             label="Тип товара"
@@ -83,7 +97,7 @@ export default function NewProductPage() {
             name="category"
             label="Категория товара"
             placeholder="Выберите категорию"
-            options={['FOOD', 'NONFOOD']}
+            options={categories.length > 0 ? categories.map((category) => category.name_ru) : []}
             onChange={(e) => updateURLParams('category', e.target.value)}
             defaultValue={searchParams.get('category') as string}
             required
@@ -93,7 +107,7 @@ export default function NewProductPage() {
             name="sub_category"
             label="Подкатегория товара"
             placeholder="Выберите подкатегорию"
-            options={['FOOD', 'NONFOOD']}
+            options={[ "Овощи и фрукты", "Зелень", "Говядина, свинина, баранина", "Курица, индейка", "Свежая рыба", "Морепродукты", "Молоко, йогурты, кефир", "Сыры, творог", "Хлеб, булочки", "Пироги, пирожные"]}
             onChange={(e) => updateURLParams('sub_category', e.target.value)}
             defaultValue={searchParams.get('sub_category') as string}
             required
@@ -176,6 +190,18 @@ export default function NewProductPage() {
             required
           />
 
+          <Input
+            label="Стоимость"
+            placeholder="Стоимость"
+            type="number"
+            name="price"
+            onChange={(e) => updateURLParams('price', e.target.value)}
+            defaultValue={searchParams.get('price') as string}
+            className="w-full"
+            min={0}
+            required
+          />
+
           <hr className="my-6" />
 
           <Input
@@ -202,10 +228,27 @@ export default function NewProductPage() {
 
           <div className="w-full flex items-center justify-between gap-6">
             <Button type="reset" variant="outline" className="w-full" onClick={handleReset}>Сбросить</Button>
-            <Button type="submit" className="w-full">Добавить</Button>
+            <SubmitForm />
           </div>
         </form>
       </section>
+    </div>
+  )
+}
+
+function SubmitForm() {
+  const { pending } = useFormStatus();
+
+  return (
+    <div>
+      <Button disabled={pending} type="submit" className="w-full">
+        { 
+          pending ?
+          <AiOutlineLoading3Quarters className="animate-spin" />
+          :
+          "Добавить"
+        }
+      </Button>
     </div>
   )
 }

@@ -79,7 +79,7 @@ export default function AccountInfo({
 }
 
 
-const InfoBox = memo(({
+const InfoBox = ({
   title,
   value
 }: {
@@ -92,4 +92,4 @@ const InfoBox = memo(({
       <div className="text-sm">{value}</div>
     </div>
   )
-})
+}
