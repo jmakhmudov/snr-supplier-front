@@ -57,17 +57,16 @@ export interface Product {
   }
 }
 
-export interface Category {
+export interface SubCategory {
   id: number;
   name_ru: string;
   name_uz: string;
-  direction: 'food' | 'nonfood';
-  sub_categories: {
+  parent_category: {
     id: number;
     name_ru: string;
     name_uz: string;
-    parent_category: number
-  }[]
+    direction: 'food' | 'nonfood';
+  };
 }
 
 export interface NewProduct {

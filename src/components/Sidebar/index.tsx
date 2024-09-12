@@ -46,7 +46,7 @@ export default function Sidebar() {
       className="flex items-center gap-3 cursor-pointer hover:bg-blue-light hover:text-blue w-full px-5 md:px-10 py-3 transition-all duration-150 data-[isActive=true]:text-blue"
       >
         <FiSettings size={20} className="group-hover:animate-spin" />
-        <div className="hidden md:visible">Аккаунт</div>
+        <div className="hidden md:block">Аккаунт</div>
       </Link>
     </div>
   )

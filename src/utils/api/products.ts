@@ -30,9 +30,14 @@ export const getProductBySlug = async (slug: string) => {
   }
 }
 
-export const getProducts = async () => {
+export const getProducts = async (page?: number, searchQ?: string) => {
   try {
-    const products = await fetch(`${API_URL}/api/product/my-company-products/`, {
+    let url = new URL(`${API_URL}/api/product/my-company-products/`)
+    
+    if (searchQ) url.searchParams.append('search', searchQ);
+    if (page) url.searchParams.append('page', page.toString());
+    
+    const products = await fetch(url, {
       headers: {
         Authorization: `Bearer ${cookies().get('access')?.value}`
       },
@@ -75,7 +80,15 @@ export const deleteProduct = async (slug: string) => {
   });
 }
 
-export const createProduct = async (product: NewProduct) => {
-  
-  console.log()
+export const createProduct = async (data: FormData) => {
+  const newProduct = await fetch(`${API_URL}/api/product/products/create/`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    body: data,
+  }).then(res => res.json());
+  console.log(newProduct)
+
+  return newProduct;
 }

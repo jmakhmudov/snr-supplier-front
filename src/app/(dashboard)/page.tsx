@@ -18,7 +18,7 @@ export default async function Home() {
         </Link>
       </div>
 
-      <ProductsList products={products} />
+      <ProductsList defaultProducts={products} />
     </div>
   );
 }

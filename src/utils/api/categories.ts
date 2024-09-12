@@ -16,3 +16,14 @@ export const getSubCategories = async () => {
   console.log(categories)
   return categories;
 }
+
+export const getSubCategoryInfo = async (name_ru: string) => {
+  const category = await fetch(`${API_URL}/api/product/subcategory/${name_ru}/`, {
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    cache: 'no-store',
+  }).then(res => res.json());
+
+  return category;
+}

@@ -101,7 +101,7 @@ export default function Select({
       </div>
 
       {showOptions && (
-        <div className="absolute bg-white border border-gray-normal rounded-md shadow-sm w-full divide-y z-50">
+        <div className="absolute bg-white border border-gray-normal rounded-md shadow-sm w-full divide-y z-50 max-h-[200px] overflow-scroll">
           {filteredOptions.map((option, index) => (
             <div
               key={index}

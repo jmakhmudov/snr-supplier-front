@@ -2,18 +2,30 @@
 
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/ui/SearchBar";
-import { Category, ProductResponse } from "@/types";
-import { useState } from "react";
+import { ProductResponse } from "@/types";
+import { getProducts } from "@/utils/api/products";
+import { useEffect, useState } from "react";
 
 
 interface ProductsListProps {
-  products: ProductResponse;
+  defaultProducts: ProductResponse;
 }
 
 export default function ProductsList({
-  products,
+  defaultProducts,
 }: ProductsListProps) {
   const [q, setQ] = useState('');
+  const [products, setProducts] = useState<ProductResponse>(defaultProducts);
+  const [currPage, setCurrPage] = useState(1);
+
+  useEffect(() => {
+    async function searchProducts() {
+      const p = await getProducts(currPage, q);
+      setProducts(p);
+    }
+
+    searchProducts();
+  }, [q, currPage])
 
   return (
     <section className="mt-5">
@@ -39,6 +51,54 @@ export default function ProductsList({
             Товаров нет
           </div>
       }
+
+
+      <div className="mt-10">
+        <Pagination
+          current_page={products.current_page}
+          total_pages={products.total_pages}
+          links={products.links}
+          onChange={(page) => setCurrPage(page)}
+        />
+      </div>
     </section>
+  )
+}
+
+interface PaginationProps {
+  total_pages: number;
+  current_page: number;
+  links: {
+    next: string | null;
+    previours: string | null;
+  };
+  onChange: (page: number) => void;
+}
+
+function Pagination({
+  current_page,
+  total_pages,
+  links,
+  onChange
+}: PaginationProps) {
+  const handlePageChange = (page: number) => {
+    onChange(page);
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      {
+        Array.from({ length: total_pages }, (_, idx) => (
+          <div
+            key={idx}
+            data-active={(idx + 1) === current_page}
+            onClick={() => handlePageChange(idx + 1)}
+            className="p-1 px-3.5 rounded-md data-[active=true]:bg-blue-light data-[active=true]:text-blue cursor-pointer"
+          >
+            {idx + 1}
+          </div>
+        ))
+      }
+    </div>
   )
 }
