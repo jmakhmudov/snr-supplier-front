@@ -6,9 +6,11 @@ import DetailItem from "@/components/ui/DetailItem";
 import { Product } from "@/types";
 import { deleteProduct } from "@/utils/api/products";
 import Image from "next/image";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-import { MdDelete, MdEdit, MdClose } from "react-icons/md";
+import { BiImageAdd } from "react-icons/bi";
+import { MdDelete, MdEdit } from "react-icons/md";
+import uploadImageAction from "./actions";
 
 interface ProductInfoProps {
   product: Product;
@@ -18,6 +20,19 @@ export default function ProductInfo({
   product
 }: ProductInfoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+
+  const handleImagesUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target || [];
+    const images: File[] = [];
+
+    if (files) {
+      Array.from(files).map((file, index) => {
+        images.push(file);
+      })
+      setUploadedImages([...images, ...uploadedImages]);
+    }
+  }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -49,7 +64,12 @@ export default function ProductInfo({
             >
               <MdDelete className="text-white" />
             </div>
-            <DeleteModal action={handleDeleteProduct} isOpen={isModalOpen} onClose={closeModal} />
+
+            <DeleteModal
+              action={handleDeleteProduct}
+              isOpen={isModalOpen}
+              onClose={closeModal}
+            />
           </div>
         </section>
 
@@ -72,9 +92,16 @@ export default function ProductInfo({
 
 
         <div className=" mt-10 flex flex-col gap-5">
-          <section className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
+          <form action={async (formData) => {
+            console.log('images', uploadedImages)
+            uploadedImages.map(image => {
+              formData.append('image', image)
+            })
+            await uploadImageAction(formData)
+            window.location.reload()
+          }} className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
             {
-              product.images.map((image) => (
+              product.images.map(image => (
                 <div key={image.image} className="w-48 aspect-square relative ">
                   <Image
                     src={image.image}
@@ -85,7 +112,41 @@ export default function ProductInfo({
                 </div>
               ))
             }
-          </section>
+            {
+              uploadedImages.map((image) => (
+                <div key={URL.createObjectURL(image)} className="w-48 aspect-square relative ">
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    alt={URL.createObjectURL(image)}
+                    className="object-contain border border-gray-light-0 rounded-lg"
+                    fill
+                  />
+                </div>
+              ))
+            }
+
+            <div data-isVisible={uploadedImages.length > 0} className="hidden data-[isVisible=true]:block">
+              <button type="submit" className="w-48 aspect-square relative grid place-items-center cursor-pointer border rounded-lg text-blue font-semibold bg-blue-light">
+                Сохранить
+              </button>
+            </div>
+
+            <div>
+              <label htmlFor="new_image" title="Добавить фото" className="w-48 aspect-square relative grid place-items-center cursor-pointer border hover:bg-gray-light-0 rounded-lg text-gray-normal">
+                <BiImageAdd size={50} />
+              </label>
+              <input
+                type="file"
+                name="new_image"
+                id="new_image"
+                className="hidden"
+                onChange={handleImagesUpload}
+                accept="image/*"
+                multiple
+              />
+              <input type="text" className="hidden" id="product" name="product" value={product.id} />
+            </div>
+          </form>
 
           <section className="space-y-6">
             <div className="flex items-start justify-between gap-8 w-full">

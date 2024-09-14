@@ -42,6 +42,8 @@ export interface Product {
   slug: string;
   is_active: boolean;
   images: {
+    id: number;
+    product: number;
     image: string;
   }[];
   category: {

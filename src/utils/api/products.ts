@@ -92,3 +92,15 @@ export const createProduct = async (data: FormData) => {
 
   return newProduct;
 }
+
+export const uploadImage = async (formData: FormData) => {
+  console.log(formData)
+  const image = await fetch(`${API_URL}/api/product/product-image/upload/`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    body: formData,
+  }).then(res => res.json());
+  console.log(image)
+}
