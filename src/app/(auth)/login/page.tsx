@@ -1,6 +1,6 @@
 'use client'
 
-import bg from '@/../public/images/bg.jpg';
+import bg from '@/../public/images/bg.webp';
 import Input from "@/components/ui/Input";
 import SubmitForm from "@/components/SubmitForm";
 import { InputMask } from "@react-input/mask";
@@ -32,7 +32,7 @@ export default function LoginPage() {
           alt="bg"
           src={bg}
           placeholder="blur"
-          className="object-cover object-bottom w-full h-screen hidden md:block"
+          className="object-cover object-center w-full h-screen hidden md:block"
           priority
         />
 
