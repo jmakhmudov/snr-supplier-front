@@ -51,7 +51,7 @@ export default function AccountInfo({
                     />
                   }
                 </div>
-                <InfoBox title="Название компании" value={user.company?.company_profile} />
+                <InfoBox title="Название компании" value={user.company?.name} />
                 <InfoBox title="ИНН компании" value={user.company?.inn} />
                 <div></div>
                 <InfoBox title="Номер телефона компании" value={user.company?.phone_number} />

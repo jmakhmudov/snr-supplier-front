@@ -1,12 +1,12 @@
 import Button from "@/components/ui/Buttons/Button";
-import { ProductResponse } from "@/types";
 import { getProducts } from "@/utils/api/products";
 import Link from "next/link";
 import ProductsList from "./products-list";
+import { PaginatedResponse, Product } from "@/types";
 
 
 export default async function Home() {
-  const products: ProductResponse = await getProducts();
+  const products: PaginatedResponse<Product> = await getProducts();
 
   return (
     <div>

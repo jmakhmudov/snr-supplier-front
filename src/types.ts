@@ -16,15 +16,15 @@ export interface Picture {
   picture: string;
 }
 
-export interface ProductResponse {
+export interface PaginatedResponse<T> {
   links: {
     next: string | null;
-    previours: string | null;
+    previous: string | null;
   };
   count: number;
   total_pages: number;
   current_page: number;
-  results: Product[];
+  results: T[];
 }
 
 export interface Product {
@@ -92,13 +92,14 @@ export interface Basket {
 }
 
 export interface Company {
-  company_profile: string;
+  name: string;
   inn: string;
   address: string | null;
   phone_number: string;
   lat: number;
   lon: number;
   logo: string | null;
+  min_order_price: number | null;
 }
 
 export interface User {
@@ -107,4 +108,26 @@ export interface User {
   role: 'ADMIN' | 'MANAGER' | 'AGENT';
   is_supplier: boolean;
   company: Company | null;
+}
+
+
+export interface OrderItem {
+  id: number;
+  product_name: string;
+  total_price: string;
+  quantity: number;
+  order: number;
+  product: number;
+}
+
+export interface Order {
+  id: number;
+  slug: string;
+  supplier: Company;
+  status: string;
+  payment_method: string;
+  total_price: number;
+  created_at: string;
+  created_by: Company;
+  order_items: OrderItem[];
 }

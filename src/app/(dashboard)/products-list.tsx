@@ -2,20 +2,20 @@
 
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/ui/SearchBar";
-import { ProductResponse } from "@/types";
+import { PaginatedResponse, Product } from "@/types";
 import { getProducts } from "@/utils/api/products";
 import { useEffect, useState } from "react";
 
 
 interface ProductsListProps {
-  defaultProducts: ProductResponse;
+  defaultProducts: PaginatedResponse<Product>;
 }
 
 export default function ProductsList({
   defaultProducts,
 }: ProductsListProps) {
   const [q, setQ] = useState('');
-  const [products, setProducts] = useState<ProductResponse>(defaultProducts);
+  const [products, setProducts] = useState<PaginatedResponse<Product>>(defaultProducts);
   const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ interface PaginationProps {
   current_page: number;
   links: {
     next: string | null;
-    previours: string | null;
+    previous: string | null;
   };
   onChange: (page: number) => void;
 }
