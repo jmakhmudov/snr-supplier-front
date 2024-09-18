@@ -34,6 +34,7 @@ export default function StatusSelect({
           {
             statuses.map(s => (
               <div
+                key={s}
                 className="flex items-center gap-2 cursor-pointer"
                 onClick={() => handleStatusSelect(s)}
               >

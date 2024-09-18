@@ -4,6 +4,7 @@ import Link from "next/link";
 import ProductsList from "./products-list";
 import { PaginatedResponse, Product } from "@/types";
 
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   const products: PaginatedResponse<Product> = await getProducts();

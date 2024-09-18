@@ -2,7 +2,7 @@
 
 import { Product } from "@/types"
 import Image from "next/image"
-import { memo, useState } from "react"
+import { useState } from "react"
 
 import { patchProduct } from "@/utils/api/products"
 import { BsLightningChargeFill, BsThreeDots } from "react-icons/bs"
@@ -10,7 +10,6 @@ import { FaStar } from "react-icons/fa"
 import { FiCheck } from "react-icons/fi"
 import { IoMdEye } from "react-icons/io"
 import { MdOutlineHideImage } from "react-icons/md"
-import { RiDiscountPercentFill } from "react-icons/ri"
 
 interface ProductProps {
   product: Product
@@ -56,14 +55,14 @@ export default function ProductCard({
           </div>
         }
 
-        {
+        {/* {
           currProduct.discount &&
           <div title="На акции" className="flex items-center gap-2 group text-orange-500">
             <RiDiscountPercentFill />
 
             <div className=" group-hover:text-orange-500 group-hover:ml-0 transition-all duration-300 text-xs font-medium text-transparent -ml-5">На акции</div>
           </div>
-        }
+        } */}
       </div>
 
       <div className="flex gap-4 h-full">
@@ -124,11 +123,11 @@ export default function ProductCard({
           <div className="text-xs font-semibold line-clamp-3 min-h-12">{currProduct.name_ru}</div>
 
           <div className="grid gap-1">
-            <ProductData label="Рейтинг" value={currProduct.rating} icon={<FaStar size={8} />} />
-            <ProductData label="Просмотры" value={currProduct.views} icon={<IoMdEye size={10} />} />
-            <ProductData label="Конверсия" value={`${currProduct.conversion}%`} />
-            <ProductData label="Продано" value={`${currProduct.quantity_sold} шт.`} />
-            <ProductData label="Скидка" value={`${currProduct.discount}%`} />
+            <ProductData label="Рейтинг" value="" icon={<FaStar size={8} />} />
+            <ProductData label="Просмотры" value="" icon={<IoMdEye size={10} />} />
+            <ProductData label="Конверсия" value="" />
+            <ProductData label="Продано" value="" />
+            <ProductData label="Скидка" value="" />
           </div>
         </div>
       </div>
@@ -147,7 +146,7 @@ export default function ProductCard({
   )
 }
 
-const ProductData = memo(({
+const ProductData = ({
   label,
   value,
   icon,
@@ -165,4 +164,4 @@ const ProductData = memo(({
       </span>
     </div>
   )
-})
+}
