@@ -3,20 +3,25 @@
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import Status, { StatusType } from "../ui/Status";
+import { updateOrderStatus } from "@/utils/api/orders";
 
 interface StatusSelect {
+  orderId: number;
   status: StatusType;
 }
 
 const statuses: StatusType[] = ["pending", "shipped", "delivered", "cancelled"]
 
 export default function StatusSelect({
+  orderId,
   status
 }: StatusSelect) {
   const [activeStatus, setActiveStatus] = useState(status);
 
-  const handleStatusSelect = (selectedStatus: StatusType) => {
-    setActiveStatus(selectedStatus)
+  const handleStatusSelect = async (selectedStatus: StatusType) => {
+    const updatedStatus = await updateOrderStatus(orderId, selectedStatus)
+    
+    if (updatedStatus === selectedStatus) setActiveStatus(selectedStatus);
   }
 
   return (

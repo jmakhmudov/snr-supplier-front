@@ -17,6 +17,7 @@ interface OrdersTableProps {
 
 
 interface Row {
+  id: number;
   slug: string;
   status: string;
   date: string;
@@ -43,7 +44,7 @@ const columns: Column<Row>[] = [
   {
     header: 'Статус',
     accessor: 'status',
-    render: (status) => <StatusSelect status={status as StatusType} />
+    render: (status, row) => <StatusSelect orderId={row.id} status={status as StatusType} />
   },
   {
     header: 'Магазин',
@@ -115,6 +116,7 @@ export default function OrdersTable({
 
   const data: Row[] = orders.results.map(item => (
     {
+      id: item.id,
       slug: item.slug,
       date: item.created_at,
       payment_method: item.payment_method,
@@ -128,17 +130,27 @@ export default function OrdersTable({
 
   return (
     <section className="mt-10">
-      <Table
-        columns={columns}
-        data={data}
-      />
-      <div className="mt-10">
-        <Pagination
-          current_page={orders.current_page}
-          total_pages={orders.total_pages}
-          onChange={(page) => setCurrPage(page)}
-        />
-      </div>
+      {
+        data.length > 0 ?
+          <>
+            <Table
+              columns={columns}
+              data={data}
+            />
+            <div className="mt-10">
+              <Pagination
+                current_page={orders.current_page}
+                total_pages={orders.total_pages}
+                onChange={(page) => setCurrPage(page)}
+              />
+            </div>
+          </>
+          :
+          <div className="w-full text-center grid place-items-center mt-6 h-[60vh] font-medium text-gray-normal">
+            Заказов нет
+          </div>
+      }
+
     </section>
   )
 }
