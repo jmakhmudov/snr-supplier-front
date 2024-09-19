@@ -10,7 +10,7 @@ const statusLabels = {
   delivered: 'доставлен',
   cancelled: 'отменен',
   cash: 'наличные',
-  transfer: 'перевод',
+  transfer: 'перечисление',
 }
 
 export default function Status({
