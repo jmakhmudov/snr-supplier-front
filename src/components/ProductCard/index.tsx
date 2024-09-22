@@ -123,11 +123,8 @@ export default function ProductCard({
           <div className="text-xs font-semibold line-clamp-3 min-h-12">{currProduct.name_ru}</div>
 
           <div className="grid gap-1">
-            <ProductData label="Рейтинг" value="" icon={<FaStar size={8} />} />
-            <ProductData label="Просмотры" value="" icon={<IoMdEye size={10} />} />
-            <ProductData label="Конверсия" value="" />
-            <ProductData label="Продано" value="" />
-            <ProductData label="Скидка" value="" />
+            <ProductData label="Просмотры" value={currProduct.stats.view_count} icon={<IoMdEye size={10} />} />
+            <ProductData label="Продано" value={`${currProduct.stats.sold_count} шт.`} />
           </div>
         </div>
       </div>

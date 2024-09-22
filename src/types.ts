@@ -56,6 +56,10 @@ export interface Product {
       name_uz: string;
       direction: 'food' | 'nonfood';
     }
+  };
+  stats: {
+    view_count: number;
+    sold_count: number;
   }
 }
 
