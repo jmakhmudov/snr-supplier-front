@@ -1,4 +1,4 @@
-export type StatusType = 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'cash' | 'transfer';
+export type StatusType = 'pending' | 'shipped' | 'delivered' | 'cancelled' | 'cash' | 'transfer' | 'active' | 'nonactive';
 
 interface StatusProps {
   label: StatusType
@@ -11,6 +11,8 @@ export const statusLabels = {
   cancelled: 'отменен',
   cash: 'наличные',
   transfer: 'перечисление',
+  active: "активен",
+  nonactive: "неактивен",
 }
 
 export default function Status({
@@ -22,7 +24,9 @@ export default function Status({
     cancelled: "bg-red-50 text-red-400",
     shipped: "bg-blue-50 text-blue-400",
     transfer: "bg-blue-50 text-blue-400",
-    cash: "bg-green-50 text-green-400"
+    cash: "bg-green-50 text-green-400",
+    active: "bg-green-50 text-green-400",
+    nonactive: "bg-red-50 text-red-400",
   }
 
   return (

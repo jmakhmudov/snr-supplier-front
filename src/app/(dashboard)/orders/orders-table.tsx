@@ -89,7 +89,7 @@ const columns: Column<Row>[] = [
     render: (price) => <div className="text-xs">{`${price.toLocaleString('ru')} сум`}</div>
   },
   {
-    header: 'SKU',
+    header: 'Кол-во SKU',
     accessor: 'product_count',
   },
   {

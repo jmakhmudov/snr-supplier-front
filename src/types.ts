@@ -61,12 +61,26 @@ export interface Product {
     view_count: number;
     sold_count: number;
   };
-  discount: {
-    discounted_price: number;
-    start_date: string;
-    end_date: string;
-    is_active: boolean;
+  discount: Discount;
+}
+
+export interface Discount {
+  id: number;
+  discounted_price: string;
+  product: {
+    id: number;
+    slug: string;
+    name_ru: string;
+    images: {
+      id: number;
+      product: number;
+      image: string;
+    }[];
+    price: string;
   }
+  start_date: string;
+  end_date: string;
+  is_active: boolean;
 }
 
 export interface SubCategory {
