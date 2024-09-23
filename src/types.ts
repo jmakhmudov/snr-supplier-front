@@ -60,6 +60,12 @@ export interface Product {
   stats: {
     view_count: number;
     sold_count: number;
+  };
+  discount: {
+    discounted_price: number;
+    start_date: string;
+    end_date: string;
+    is_active: boolean;
   }
 }
 
