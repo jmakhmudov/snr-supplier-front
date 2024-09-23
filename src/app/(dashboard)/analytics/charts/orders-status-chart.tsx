@@ -1,7 +1,6 @@
 "use client"
 
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
-
 import {
   ChartConfig,
   ChartContainer,
@@ -9,24 +8,31 @@ import {
   ChartTooltipContent
 } from "@/components/ui/chart"
 import { HiShoppingCart } from "react-icons/hi";
-
+import { statusLabels } from "@/components/ui/Status";
 
 export const description = "A bar chart with a custom label"
 
-const chartData = [
-  { status: "В ожидании", views: 42, fill: "fill-yellow-400" },
-  { status: "Доставляется", views: 8 },
-  { status: "Доставлен", views: 4 },
-  { status: "Отменен", views: 0 },
-]
+interface OrdersStatusChartProps {
+  data: {
+    status: string;
+    count: number;
+  }[]
+}
 
 const chartConfig = {
-  views: {
+  count: {
     label: "Заказы",
   },
 } satisfies ChartConfig
 
-export function OrdersStatusChart() {
+export function OrdersStatusChart({
+  data
+}: OrdersStatusChartProps) {
+  const chartData = data.map(item => ({
+    ...item,
+    status: statusLabels[item.status as keyof typeof statusLabels]
+  }));
+
   return (
     <div className="bg-white p-5 rounded-xl">
       <div className="mb-3 flex items-center justify-between">
@@ -42,46 +48,34 @@ export function OrdersStatusChart() {
           data={chartData}
           layout="vertical"
           margin={{
-            right: 16,
+            left: 30,
+            right: 15,
           }}
         >
           <CartesianGrid horizontal={false} />
+          <XAxis type="number" dataKey="count" hide />
           <YAxis
             dataKey="status"
             type="category"
             tickLine={false}
-            tickMargin={10}
             axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
-            hide
           />
-          <XAxis dataKey="views" type="number" hide />
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent indicator="line" />}
+            content={<ChartTooltipContent indicator="dashed" />}
           />
-          <Bar
-            dataKey="views"
-            layout="vertical"
-            fill="var(--color-views)"
-            radius={4}
-          >
+          <Bar dataKey="count" className="fill-blue" radius={5}>
             <LabelList
-              dataKey="views"
-              offset={8}
-              className="fill-white"
-              fontSize={12}
-            />
-            <LabelList
-              dataKey="status"
+              dataKey="count"
               position="right"
               offset={8}
-              className="fill-[--color-label]"
+              className="fill-black"
               fontSize={12}
             />
           </Bar>
         </BarChart>
       </ChartContainer>
+      <div className="text-xs text-gray-normal mt-4">Статус заказов не меняется под выбор даты</div>
     </div>
   )
 }

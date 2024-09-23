@@ -4,7 +4,7 @@ interface StatusProps {
   label: StatusType
 }
 
-const statusLabels = {
+export const statusLabels = {
   pending: 'собирается',
   shipped: 'доставляется',
   delivered: 'доставлен',

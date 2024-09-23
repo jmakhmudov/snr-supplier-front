@@ -9,10 +9,7 @@ import {
   RadialBarChart,
 } from "recharts"
 import { IoMdEye } from "react-icons/io"
-
-const chartData = [
-  { views: 9700, fill: "#3A76FF" },
-]
+import { getViewsLabelRu } from "@/helpers/getViewsLabelRu"
 
 const chartConfig = {
   views: {
@@ -20,7 +17,17 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-export default function ViewsChart() {
+interface ViewsChartProps {
+  data: number;
+}
+
+export default function ViewsChart({
+  data
+}: ViewsChartProps) {
+  const chartData = [
+    { views: data, fill: "#3A76FF" },
+  ]
+
   return (
     <div className="bg-white p-5 rounded-xl">
       <div className=" mb-3 flex items-center justify-between">
@@ -69,7 +76,7 @@ export default function ViewsChart() {
                         y={(viewBox.cy || 0) + 24}
                         className="fill-muted-foreground"
                       >
-                        просмотров
+                        {getViewsLabelRu(data)}
                       </tspan>
                     </text>
                   )
