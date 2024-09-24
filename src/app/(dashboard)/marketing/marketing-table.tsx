@@ -65,7 +65,7 @@ const columns: Column<Row>[] = [
   {
     header: 'Статус',
     accessor: 'is_active',
-    render: (_, row) => <DiscountStatus item={row}/>
+    render: (_, row) => <DiscountStatus item={row} />
   },
   {
     header: 'Начало',

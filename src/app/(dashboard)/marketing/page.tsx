@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Buttons/Button";
 import Link from "next/link";
-import MarketingTable from "./marketing-table";
 import { getMarketingData } from "@/utils/api/marketing";
+import MarketingTable from "./marketing-table";
 
 export default async function MarketingPage() {
   const marketingData = await getMarketingData();

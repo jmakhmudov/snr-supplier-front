@@ -127,6 +127,7 @@ export interface Company {
 }
 
 export interface User {
+  id: number;
   username: string;
   full_name: string;
   role: 'ADMIN' | 'MANAGER' | 'AGENT';
@@ -154,4 +155,9 @@ export interface Order {
   created_at: string;
   created_by: Company;
   order_items: OrderItem[];
+}
+
+export interface Invitation {
+  detail: string;
+  token: string;
 }

@@ -28,3 +28,15 @@ export const getInvitationInfo = async (token: string) => {
 
   return data;
 }
+
+export const createInvitation = async (formData: FormData) => {
+  const data = await fetch(`${API_URL}/api/account/invitations/create/`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`,
+    },
+    body: formData
+  }).then(res => res.json())
+  
+  return data;
+}

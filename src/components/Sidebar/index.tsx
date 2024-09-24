@@ -12,7 +12,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className=" fixed left-0 top-0 bottom-0 border-r border-gray-light-0 flex flex-col items-center justify-between bg-white py-8 z-[100] select-none">
+    <div className=" fixed left-0 top-0 bottom-0 border-r border-gray-light-0 flex flex-col items-center justify-between bg-white py-8 z-[10] select-none">
       <div className=" space-y-10 grid place-items-center w-full">
         <Link href={'/'}>
           <Image
