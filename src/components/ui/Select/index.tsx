@@ -10,6 +10,7 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
   alert?: boolean;
   children?: React.ReactNode;
   options: string[];
+  editable?: boolean;
 }
 
 export default function Select({
@@ -20,6 +21,7 @@ export default function Select({
   alert,
   children,
   options,
+  editable = true,
   ...inputProps
 }: SelectProps) {
   const [showOptions, setShowOptions] = useState(false);
@@ -95,6 +97,7 @@ export default function Select({
             onChange={handleSearch}
             value={input}
             onClick={() => setShowOptions(true)}
+            disabled={!editable}
           />
         )}
         <IoIosArrowDown />

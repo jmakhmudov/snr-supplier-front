@@ -10,7 +10,7 @@ export default async function MarketingPage() {
       <div className="flex items-center justify-between">
         <h1 className="font-semibold">Маркетинг</h1>
 
-        <Link href={'/products/new'}>
+        <Link href={'/marketing/new'}>
           <Button>Создать</Button>
         </Link>
       </div>

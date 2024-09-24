@@ -20,7 +20,7 @@ export default function StatusSelect({
 
   const handleStatusSelect = async (selectedStatus: StatusType) => {
     const updatedStatus = await updateOrderStatus(orderId, selectedStatus)
-    
+    console.log(updatedStatus)
     if (updatedStatus === selectedStatus) setActiveStatus(selectedStatus);
   }
 

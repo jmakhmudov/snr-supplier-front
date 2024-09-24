@@ -33,10 +33,10 @@ export const getProductBySlug = async (slug: string) => {
 export const getProducts = async (page?: number, searchQ?: string) => {
   try {
     let url = new URL(`${API_URL}/api/product/my-company-products/`)
-    
+
     if (searchQ) url.searchParams.append('search', searchQ);
     if (page) url.searchParams.append('page', page.toString());
-    
+
     const products = await fetch(url, {
       headers: {
         Authorization: `Bearer ${cookies().get('access')?.value}`
@@ -103,4 +103,18 @@ export const uploadImage = async (formData: FormData) => {
     body: formData,
   }).then(res => res.json());
   console.log(image)
+}
+
+
+export const getProductList = async () => {
+  let url = new URL(`${API_URL}/api/product/short-list/`)
+
+  const products = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    cache: 'no-store',
+  }).then(res => res.json());
+
+  return products;
 }

@@ -7,6 +7,7 @@ import Button from "@/components/ui/Buttons/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import Status from "@/components/ui/Status";
 import { Discount, Order, PaginatedResponse } from "@/types";
+import { stopDisountCampaign } from "@/utils/api/analytics";
 import { getMarketingData } from "@/utils/api/marketing";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -64,7 +65,7 @@ const columns: Column<Row>[] = [
   {
     header: 'Статус',
     accessor: 'is_active',
-    render: (is_active) => <Status label={is_active ? "active" : "nonactive"} />
+    render: (_, row) => <DiscountStatus item={row}/>
   },
   {
     header: 'Начало',
@@ -129,5 +130,45 @@ export default function MarketingTable({
       }
 
     </section>
+  )
+}
+
+function DiscountStatus({
+  item,
+}: {
+  item: Discount
+}) {
+  const [isActive, setIsActive] = useState(item.is_active);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleStatusSelect = async () => {
+    const updatedItem = await stopDisountCampaign(item.id)
+
+    if (updatedItem.is_active === false) setIsActive(false);
+  }
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
+
+  const handleClick = () => {
+    handleStatusSelect();
+    setIsOpen(false);
+  };
+
+  return (
+    <Popover open={isOpen} onOpenChange={handleOpenChange}>
+      <PopoverTrigger disabled={!isActive}>
+        <Status label={isActive ? "active" : "nonactive"} />
+      </PopoverTrigger>
+      <PopoverContent className="w-40 text-sm">
+        <div
+          className="text-xs text-blue cursor-pointer underline"
+          onClick={handleClick}
+        >
+          {isActive && 'Завершить досрочно'}
+        </div>
+      </PopoverContent>
+    </Popover>
   )
 }

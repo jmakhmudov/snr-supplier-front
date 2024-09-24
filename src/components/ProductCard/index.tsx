@@ -10,6 +10,7 @@ import { FaStar } from "react-icons/fa"
 import { FiCheck } from "react-icons/fi"
 import { IoMdEye } from "react-icons/io"
 import { MdOutlineHideImage } from "react-icons/md"
+import { RiDiscountPercentFill } from "react-icons/ri"
 
 interface ProductProps {
   product: Product
@@ -55,14 +56,14 @@ export default function ProductCard({
           </div>
         }
 
-        {/* {
-          currProduct.discount &&
+        {
+          currProduct.discount.is_active &&
           <div title="На акции" className="flex items-center gap-2 group text-orange-500">
             <RiDiscountPercentFill />
 
             <div className=" group-hover:text-orange-500 group-hover:ml-0 transition-all duration-300 text-xs font-medium text-transparent -ml-5">На акции</div>
           </div>
-        } */}
+        }
       </div>
 
       <div className="flex gap-4 h-full">
@@ -136,7 +137,14 @@ export default function ProductCard({
           <div className="bg-gray-light-0 rounded-lg text-xs font-semibold px-3 py-2 w-full text-center cursor-default">К отправке 0</div>
         </div>
 
-        <div className="font-semibold text-sm text-center">{Number(currProduct.price).toLocaleString('ru')} сум</div>
+        <div className="font-semibold text-sm text-center flex items-center gap-4 justify-center">
+          {Number(
+            currProduct.discount.is_active ?
+            currProduct.discount.discounted_price :
+            currProduct.price
+          ).toLocaleString('ru')} сум
+          <span className="text-sm font-normal line-through">{currProduct.discount.is_active && `${Number(currProduct.price)} сум`}</span>
+        </div>
       </div>
 
     </a>
