@@ -84,7 +84,6 @@ export default function MarketingTable({
 }: MarketingTableProps) {
   const [marketingData, setMarketingData] = useState<PaginatedResponse<Discount>>(defaultData);
   const [currPage, setCurrPage] = useState(1);
-  console.log(defaultData)
 
   useEffect(() => {
     async function searchProducts() {
