@@ -97,7 +97,7 @@ export default function Select({
             onChange={handleSearch}
             value={input}
             onClick={() => setShowOptions(true)}
-            disabled={!editable}
+            readOnly={!editable}
           />
         )}
         <IoIosArrowDown />
