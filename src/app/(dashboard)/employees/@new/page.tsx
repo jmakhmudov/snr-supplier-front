@@ -4,7 +4,6 @@ import Button from "@/components/ui/Buttons/Button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import Select from "@/components/ui/Select"
 import { Invitation, User } from "@/types"
-import { getUser } from "@/utils/api/auth"
 import { createInvitation } from "@/utils/api/invitation"
 import { useState } from "react"
 import { useFormStatus } from "react-dom"
@@ -18,14 +17,19 @@ export default function CreateInvitationPage({
   const [invitation, setInvitation] = useState<Invitation>({} as Invitation)
 
   const handleFormSubmit = async (formData: FormData) => {
+    console.log(formData)
     const data: Invitation = await createInvitation(formData);
 
     if (data.token) setInvitation(data);
   }
 
+  const handleClosing = (open: boolean) => {
+    if (!open) setInvitation({} as Invitation);
+  }
+
   return (
     <div>
-      <Dialog>
+      <Dialog onOpenChange={handleClosing}>
         <DialogTrigger>
           <Button>Создать</Button>
         </DialogTrigger>
@@ -40,10 +44,11 @@ export default function CreateInvitationPage({
 
           {
             invitation.token ?
-            <div className="text-sm font-mono">{window.location.origin}/join/{invitation.token}</div>
-            :
+              <div className="text-sm font-mono">{window.location.origin}/join/{invitation.token}</div>
+              :
               <form className="grid gap-4" action={handleFormSubmit}>
                 <input type="text" name="company" className="hidden" value={user.id} />
+
                 <Select
                   name="assigned_role"
                   label="Роль"
