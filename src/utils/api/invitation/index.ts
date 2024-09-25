@@ -14,7 +14,7 @@ export const acceptInvitation = async (token: string) => {
     body: JSON.stringify({ token })
   }).then(res => res.json())
 
-  return data;
+  return data.detail === "Invitation accepted successfully";
 }
 
 export const getInvitationInfo = async (token: string) => {
