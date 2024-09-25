@@ -6,8 +6,10 @@ import { acceptInvitation } from "@/utils/api/invitation";
 export default function ApproveInvitation({
   token
 }: { token: string }) {
-  function approveInvitation() {
-    console.log(acceptInvitation(token))
+  async function approveInvitation() {
+    const approved = await acceptInvitation(token);
+
+    if (approved) window.location.href = '/'
   }
 
   return (
