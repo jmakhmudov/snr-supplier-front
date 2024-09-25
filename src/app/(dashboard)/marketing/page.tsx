@@ -2,6 +2,7 @@ import Button from "@/components/ui/Buttons/Button";
 import Link from "next/link";
 import { getMarketingData } from "@/utils/api/marketing";
 import MarketingTable from "./marketing-table";
+import { MdAdd } from "react-icons/md";
 
 export default async function MarketingPage() {
   const marketingData = await getMarketingData();
@@ -11,7 +12,10 @@ export default async function MarketingPage() {
         <h1 className="font-semibold">Маркетинг</h1>
 
         <Link href={'/marketing/new'}>
-          <Button>Создать</Button>
+          <Button>
+            <div className="hidden md:block">Создать</div>
+            <MdAdd className="md:hidden" size={20} />
+          </Button>
         </Link>
       </div>
 

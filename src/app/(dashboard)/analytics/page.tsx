@@ -9,7 +9,7 @@ export default async function AnalyticsPage() {
     <div>
       <h1 className="font-semibold">Аналитика</h1>
 
-      <section className=" mt-10 grid grid-cols-2 gap-5">
+      <section className=" mt-10 grid grid-cols-1 md:grid-cols-2 w-full gap-5">
         <div>
           <div className="text-sm mb-1">Общий доход (сум)</div>
           <div className="font-bold text-4xl">{data.total_revenue.toLocaleString("ru")}</div>

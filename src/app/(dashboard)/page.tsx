@@ -3,6 +3,7 @@ import { getProducts } from "@/utils/api/products";
 import Link from "next/link";
 import ProductsList from "./products-list";
 import { PaginatedResponse, Product } from "@/types";
+import { MdAdd } from "react-icons/md";
 
 export const dynamic = 'force-dynamic'
 
@@ -15,7 +16,10 @@ export default async function Home() {
         <h1 className="font-semibold">Товары</h1>
 
         <Link href={'/products/new'}>
-          <Button>Добавить товар</Button>
+          <Button>
+            <div className="hidden md:block">Добавить товар</div>
+            <MdAdd className="md:hidden" size={20} />
+          </Button>
         </Link>
       </div>
 

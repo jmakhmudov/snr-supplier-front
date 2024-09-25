@@ -1,6 +1,7 @@
 'use client'
 
 import Map from "@/components/Map";
+import Button from "@/components/ui/Buttons/Button";
 import { store } from "@/store";
 import { User } from "@/types";
 import { logout } from "@/utils/api/auth";
@@ -27,7 +28,7 @@ export default function AccountInfo({
       <div className="space-y-8">
         <div className=" w-full">
           <h4 className="font-semibold mb-2">Личная информация</h4>
-          <div className="grid grid-cols-3 w-full gap-4 gap-x-8">
+          <div className="grid md:grid-cols-3 w-full gap-4 gap-x-8">
             <InfoBox title="ФИО" value={user.full_name} />
             <InfoBox title="Номер телефона" value={`+${user.username}`} />
             <InfoBox title="Роль" value={user.role} />
@@ -38,7 +39,7 @@ export default function AccountInfo({
           <h4 className="font-semibold mb-2">О компании</h4>
           {
             user.company ?
-              (<div className="grid grid-cols-3 w-full gap-4 gap-x-8">
+              (<div className="grid md:grid-cols-3 w-full gap-4 gap-x-8">
                 <div className="h-24 w-24 bg-gray-light relative border border-gray-light-0">
                   {
                     user.company.logo &&
@@ -73,7 +74,7 @@ export default function AccountInfo({
         </div>
       </div>
 
-      <div onClick={handleLogout} className="cursor-pointer">Выйти</div>
+      <Button variant="destructive" onClick={handleLogout} className="cursor-pointer mt-10">Выйти</Button>
     </section>
   )
 }

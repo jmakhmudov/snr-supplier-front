@@ -8,6 +8,7 @@ import { createInvitation } from "@/utils/api/invitation"
 import { useState } from "react"
 import { useFormStatus } from "react-dom"
 import { AiOutlineLoading3Quarters } from "react-icons/ai"
+import { MdAdd } from "react-icons/md"
 
 export default function CreateInvitationPage({
   user,
@@ -31,7 +32,10 @@ export default function CreateInvitationPage({
     <div>
       <Dialog onOpenChange={handleClosing}>
         <DialogTrigger>
-          <Button>Создать</Button>
+          <Button>
+            <div className="hidden md:block">Пригласить</div>
+            <MdAdd className="md:hidden" size={20} />
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>

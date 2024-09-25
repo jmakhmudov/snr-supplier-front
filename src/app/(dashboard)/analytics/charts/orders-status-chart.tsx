@@ -59,6 +59,7 @@ export function OrdersStatusChart({
             type="category"
             tickLine={false}
             axisLine={false}
+            fontSize={12}
           />
           <ChartTooltip
             cursor={false}
