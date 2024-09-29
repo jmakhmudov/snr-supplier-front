@@ -34,6 +34,7 @@ const columns: Column<Row>[] = [
         quality={20}
         alt={row.product.name_ru}
         src={row.product.images[0].image}
+        className="object-contain"
         fill
       />
     </div>
@@ -125,7 +126,7 @@ export default function MarketingTable({
           </>
           :
           <div className="w-full text-center grid place-items-center mt-6 h-[60vh] font-medium text-gray-normal">
-            Заказов нет
+            Пусто
           </div>
       }
 
