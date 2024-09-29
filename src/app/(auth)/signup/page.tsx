@@ -70,9 +70,9 @@ function SuccessfulRegistration() {
         </div>
 
         <div className='mt-10'>
-        <Link href={'/login'}>
-          <Button type="submit" className="w-full">Войти</Button>
-        </Link>
+          <Link href={'/login'}>
+            <Button type="submit" className="w-full">Войти</Button>
+          </Link>
         </div>
       </div>
     </div>
@@ -86,9 +86,7 @@ export default function SignUpPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [phone, setPhone] = useState('');
 
-  const handleSignUp = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+  const handleSignUp = (formData: FormData) => {
     signUp(formData);
   };
 
@@ -114,7 +112,7 @@ export default function SignUpPage() {
           isSubmitted ?
             <SuccessfulRegistration />
             :
-            <form className="md:w-2/3 w-full px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center" onSubmit={handleSignUp}>
+            <form className="md:w-2/3 w-full px-3.5 md:px-16 pt-5 h-full md:bg-white md:rounded-3xl md:-ml-10 grid place-items-center" action={handleSignUp}>
               <div className=" w-2/3 space-y-6">
                 <h1 className="font-bold text-2xl">Регистрация</h1>
 
@@ -127,9 +125,9 @@ export default function SignUpPage() {
                       required
                     >
                       <InputMask
-                        name="phone"
                         className="w-full outline-none placeholder-gray-normal bg-transparent"
                         placeholder="+998"
+                        name='phone'
                         mask="+998 __ ___ __ __"
                         replacement={{ _: /\d/ }}
                         onChange={(e) => setPhone(e.target.value)}

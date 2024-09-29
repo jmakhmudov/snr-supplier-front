@@ -62,29 +62,11 @@ export const login = async (formData: FormData) => {
 
 export const signUp = async (formData: FormData) => {
   const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
-  const full_name = formData.get('full_name') as string;
-  const password = formData.get('password') as string;
-  const password_confirmation = formData.get('password_confirmation') as string;
-
-  const body = {
-    user: {
-      username: phone,
-      password,
-      password_confirmation
-    },
-    role: null,
-    is_supplier: true,
-    full_name
-  }
-
-  console.log(JSON.stringify(body));
-
+  formData.set('username', phone);
+  
   const data = await fetch(`${API_URL}/api/account/register/`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body)
+    body: formData
   }).then(res => res.json())
 
   console.log(data);
