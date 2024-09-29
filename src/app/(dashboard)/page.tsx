@@ -6,6 +6,7 @@ import { PaginatedResponse, Product } from "@/types";
 import { MdAdd } from "react-icons/md";
 
 export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store';
 
 export default async function Home() {
   const products: PaginatedResponse<Product> = await getProducts();

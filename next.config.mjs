@@ -12,6 +12,20 @@ const nextConfig = {
       {
         source: '/media/:path*',
         destination: `${API_URL}/media/:path*/`,
+      }
+    ]
+  },
+
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store',
+          },
+        ],
       },
     ]
   },
