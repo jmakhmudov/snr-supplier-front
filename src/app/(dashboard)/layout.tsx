@@ -1,4 +1,5 @@
 import Sidebar from "@/components/Sidebar";
+import { getUser } from "@/utils/api/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,9 +13,11 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getUser()
+
   return (
     <section>
-      <Sidebar />
+      <Sidebar user={user} />
 
       <main className="pl-20 md:pl-64 pr-6 md:pr-16 pt-10 pb-24">
         {children}

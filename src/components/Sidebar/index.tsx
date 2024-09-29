@@ -7,8 +7,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiSettings } from "react-icons/fi";
 import { navLink } from "./nav-links";
+import { User } from '@/types';
 
-export default function Sidebar() {
+export default function Sidebar({
+  user
+}: {
+  user: User
+}) {
   const pathname = usePathname();
 
   return (
@@ -24,7 +29,8 @@ export default function Sidebar() {
 
         <nav className="w-full">
           {
-            navLink.map(link => (
+            user?.role &&
+            navLink[user.role].map(link => (
               <Link
                 key={link.href}
                 data-isActive={pathname === link.href}

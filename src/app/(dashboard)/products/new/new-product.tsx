@@ -5,13 +5,15 @@ import Button from "@/components/ui/Buttons/Button";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
-import { useFormStatus } from "react-dom";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { createProductAction } from "./actions";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { SubCategory } from "@/types";
 import { getSubCategoryInfo } from "@/utils/api/categories";
+import { useSearchParams } from "next/navigation";
+import { ChangeEvent, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { RiFileAddLine } from "react-icons/ri";
+import { createProductAction } from "./actions";
+import { uploadExcel } from "@/utils/api/products";
 
 interface NewProductFormProps {
   subcategories: SubCategory[]
@@ -23,6 +25,7 @@ export default function NewProductForm({
   const searchParams = useSearchParams();
   const queryParams = new URLSearchParams(searchParams.toString());
   const [categoryInfo, setCategoryInfo] = useState<SubCategory>();
+  const [file, setFile] = useState<File>()
 
   const getFullCategoryInfo = async (name_ru: string) => {
     if (!searchParams.get('category')) return;
@@ -54,8 +57,42 @@ export default function NewProductForm({
     if (newProduct.slug) window.location.href = `/products/${newProduct.slug}`;
   }
 
+  const handleExcelUpload = async (formData: FormData) => {
+    const success = await uploadExcel(formData)
+    console.log(success)
+    if (success) window.location.href = '/'
+  }
+
   return (
     <section className="bg-white rounded-xl px-8 py-6 space-y-8">
+
+      <form className="flex items-center gap-4" action={handleExcelUpload}>
+        <label htmlFor="file" title="Загрузить с Excel">
+          <div className="flex items-center gap-2 bg-blue h-9 px-5 rounded-full text-white text-sm font-medium cursor-pointer">
+            <RiFileAddLine size={18} />
+            Загрузить с Excel
+          </div>
+        </label>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          className="hidden"
+          accept=".xls,.xlsx"
+          onChange={(e) => {
+            if (e.target.files) setFile(e.target.files[0])
+          }}
+        />
+
+        {
+          file && <div className="text-sm text-purple">{file.name}</div>
+        }
+
+        {
+          file && <SubmitForm className="w-auto" />
+        }
+      </form>
+
       <div className="text-sm"><span className="text-red-500">*</span> обязательное поле</div>
 
       <form action={handleFormAction} className="grid gap-5">
@@ -198,11 +235,15 @@ export default function NewProductForm({
   )
 }
 
-function SubmitForm() {
+function SubmitForm({
+  className
+}: {
+  className?: string
+}) {
   const { pending } = useFormStatus();
 
   return (
-    <div className="w-full">
+    <div className={`w-full ${className}`}>
       <Button disabled={pending} type="submit" className="w-full">
         {
           pending ?

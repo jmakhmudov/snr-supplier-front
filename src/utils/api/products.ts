@@ -118,3 +118,18 @@ export const getProductList = async () => {
 
   return products;
 }
+
+export const uploadExcel = async (formData: FormData) => {
+  let url = new URL(`${API_URL}/api/product/upload-products/`)
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    body: formData,
+    cache: 'no-store',
+  })
+
+  return res.status === 201
+}
