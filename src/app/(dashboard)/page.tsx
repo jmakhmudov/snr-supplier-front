@@ -10,7 +10,7 @@ export const fetchCache = 'force-no-store';
 
 export default async function Home() {
   const products: PaginatedResponse<Product> = await getProducts();
-
+  console.log(products);
   return (
     <div>
       <div className="flex items-center justify-between">

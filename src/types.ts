@@ -116,6 +116,7 @@ export interface Basket {
 }
 
 export interface Company {
+  id: number;
   name: string;
   inn: string;
   address: string | null;

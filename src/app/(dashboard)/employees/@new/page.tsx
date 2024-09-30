@@ -51,7 +51,9 @@ export default function CreateInvitationPage({
               <div className="text-sm font-mono">{window.location.origin}/join/{invitation.token}</div>
               :
               <form className="grid gap-4" action={handleFormSubmit}>
-                <input type="text" name="company" className="hidden" value={user.id} />
+                {
+                  user.company && <input type="text" name="company" className="hidden" value={user.company.id} />
+                }
 
                 <Select
                   name="assigned_role"

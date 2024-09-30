@@ -63,7 +63,8 @@ export const login = async (formData: FormData) => {
 export const signUp = async (formData: FormData) => {
   const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
   formData.set('username', phone);
-  
+  formData.set('is_supplier', 'true');
+
   const data = await fetch(`${API_URL}/api/account/register/`, {
     method: 'POST',
     body: formData

@@ -37,6 +37,6 @@ export const createInvitation = async (formData: FormData) => {
     },
     body: formData
   }).then(res => res.json())
-  
+  console.log(data)
   return data;
 }
