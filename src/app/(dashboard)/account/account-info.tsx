@@ -2,12 +2,9 @@
 
 import Map from "@/components/Map";
 import Button from "@/components/ui/Buttons/Button";
-import { store } from "@/store";
 import { User } from "@/types";
 import { logout } from "@/utils/api/auth";
 import Image from "next/image";
-import { memo } from "react";
-import { useSnapshot } from "valtio";
 
 interface AccountInfoProps {
   user: User;
@@ -19,7 +16,6 @@ export default function AccountInfo({
 
   const handleLogout = async () => {
     await logout();
-    window.location.reload();
   };
   console.log(user)
 

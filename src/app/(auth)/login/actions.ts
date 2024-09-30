@@ -1,5 +1,8 @@
+"use server"
+
 import { login } from "@/utils/api/auth";
-import Cookies from "universal-cookie";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export interface FormState {
   message: string;
@@ -17,11 +20,10 @@ export async function loginAction(
 
   if (!data.detail) {
     console.log('logged in');
-    const cookies = new Cookies();
-    cookies.set('access', data.access);
-    cookies.set('refresh', data.refresh);
+    cookies().set('access', data.access);
+    cookies().set('refresh', data.refresh);
     
-    window.location.href = '/';
+    redirect("/")
     return {
       message: 'success',
     }

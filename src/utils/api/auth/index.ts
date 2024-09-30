@@ -1,12 +1,14 @@
 'use server'
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const API_URL = process.env.API_URL;
 
 export const logout = async () => {
   cookies().delete('access');
   cookies().delete('refresh');
+  redirect("/")
 }
 
 export const verifyToken = async (token: string) => {
@@ -56,7 +58,7 @@ export const login = async (formData: FormData) => {
   }).then(res => res.json());
 
   console.log(data);
-
+  cookies().set("rtest", "e")
   return data;
 }
 
