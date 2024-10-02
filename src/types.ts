@@ -140,6 +140,7 @@ export interface User {
 export interface OrderItem {
   id: number;
   product_name: string;
+  product_barcode: string;
   total_price: string;
   quantity: number;
   order: number;

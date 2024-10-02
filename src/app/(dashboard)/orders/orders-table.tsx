@@ -1,13 +1,14 @@
 "use client"
 
 import Map from "@/components/Map";
+import OrderDetailInfo from "@/components/OrderDetailInfo";
 import Pagination from "@/components/Pagination";
 import StatusSelect from "@/components/StatusSelect";
 import Table from "@/components/Table";
 import { Column } from "@/components/Table/types";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import Status, { StatusType } from "@/components/ui/Status";
-import { Order, PaginatedResponse } from "@/types";
+import { Order, OrderItem, PaginatedResponse } from "@/types";
 import { getOrders } from "@/utils/api/orders";
 import { useEffect, useState } from "react";
 
@@ -16,11 +17,11 @@ interface OrdersTableProps {
 }
 
 
-interface Row {
+export interface OrderRow {
   id: number;
   slug: string;
   status: string;
-  date: string;
+  created_at: string;
   retailer: {
     inn: string;
     name: string
@@ -32,14 +33,17 @@ interface Row {
   total_price: number;
   product_count: number;
   product_items_count: number;
+  order_items: OrderItem[];
 }
 
 
-const columns: Column<Row>[] = [
+const columns: Column<OrderRow>[] = [
   {
     header: '№ заказа',
     accessor: 'slug',
-    render: (slug) => <div className="underline font-medium cursor-pointer">{slug as string}</div>
+    render: (slug, row) => (
+      <OrderDetailInfo order={row}/>
+    )
   },
   {
     header: 'Статус',
@@ -91,10 +95,12 @@ const columns: Column<Row>[] = [
   {
     header: 'Кол-во SKU',
     accessor: 'product_count',
+    render: (product_count) => <div className="text-xs">{product_count.toLocaleString('ru')}</div>
   },
   {
     header: 'Кол-во товаров',
     accessor: 'product_items_count',
+    render: (product_items_count) => <div className="text-xs">{product_items_count.toLocaleString('ru')}</div>
   },
 ];
 
@@ -104,6 +110,7 @@ export default function OrdersTable({
 }: OrdersTableProps) {
   const [orders, setOrders] = useState<PaginatedResponse<Order>>(defaultOrders);
   const [currPage, setCurrPage] = useState(1);
+  console.log(orders.results[0])
 
   useEffect(() => {
     async function searchProducts() {
@@ -114,17 +121,18 @@ export default function OrdersTable({
     searchProducts();
   }, [currPage])
 
-  const data: Row[] = orders.results.map(item => (
+  const data: OrderRow[] = orders.results.map(item => (
     {
       id: item.id,
       slug: item.slug,
-      date: item.created_at,
+      created_at: item.created_at,
       payment_method: item.payment_method,
       product_count: item.order_items.length,
       product_items_count: item.order_items.reduce((sum, item) => sum + item.quantity, 0),
       retailer: item.created_by,
       status: item.status,
-      total_price: item.total_price
+      total_price: item.total_price,
+      order_items: item.order_items
     }
   ))
 
