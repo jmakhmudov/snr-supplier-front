@@ -1,11 +1,13 @@
 "use client"
 
 import Button from "@/components/ui/Buttons/Button";
+import DetailItem from "@/components/ui/DetailItem";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import { Product } from "@/types";
 import { createDiscount } from "@/utils/api/analytics";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
@@ -17,7 +19,8 @@ export default function NewMarketingForm({
   products
 }: NewMarketingForm) {
   const searchParams = useSearchParams();
-  const queryParams = new URLSearchParams(searchParams.toString());
+  const queryParams = new URLSearchParams(searchParams.toString())
+  const [selectedProductId, setSelectedProductId] = useState(searchParams.get("product_id"))
 
   const handleReset = () => {
     window.history.replaceState(null, '', '/marketing/new');
@@ -53,6 +56,14 @@ export default function NewMarketingForm({
           editable={false}
           required
         />
+
+        {
+          searchParams.get('product') &&
+          <DetailItem
+            label="Стоимость без скидки"
+            value={`${Number(products.find(product => product.id.toString() === (searchParams.get('product') as string).split(' ')[0].replace('#', ''))?.price).toLocaleString("ru")} сум`}
+          />
+        }
 
         <Input
           label="Стоимость со скидкой"
