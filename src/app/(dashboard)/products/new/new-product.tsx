@@ -13,9 +13,9 @@ import { useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FiDownload } from "react-icons/fi";
 import { RiFileAddLine } from "react-icons/ri";
 import { createProductAction } from "./actions";
-import { FiDownload } from "react-icons/fi";
 
 interface NewProductFormProps {
   subcategories: SubCategory[]
@@ -69,17 +69,17 @@ export default function NewProductForm({
     fetch('/api/product/download/template/', {
       method: 'GET',
     })
-    .then(response => response.blob())
-    .then(blob => {
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'ШАБЛОН.xlsx'); 
-      document.body.appendChild(link);
-      link.click();
-      if (link.parentNode) link.parentNode.removeChild(link);
-    })
-    .catch(error => console.error('Error downloading the file:', error));
+      .then(response => response.blob())
+      .then(blob => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'ШАБЛОН.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        if (link.parentNode) link.parentNode.removeChild(link);
+      })
+      .catch(error => console.error('Error downloading the file:', error));
   };
 
   return (
@@ -95,20 +95,29 @@ export default function NewProductForm({
           </DialogTrigger>
           <DialogContent className="w-full text-sm">
             <DialogTitle>Загрузить товары через Excel</DialogTitle>
+
             <DialogDescription>
-                <div className="text-blue flex gap-1 items-center cursor-pointer" onClick={handleDownload}>
-                  <FiDownload />
-                  Скачать шаблон
-                </div>
+              <div className="text-blue flex gap-1 items-center cursor-pointer" onClick={handleDownload}>
+                <FiDownload />
+                Скачать шаблон
+              </div>
             </DialogDescription>
+
             <label htmlFor="file" title="Загрузить с Excel" >
               <div className="w-full h-48 border-4 border-blue-light rounded-lg border-dashed grid place-items-center text-blue cursor-pointer">
                 <div className="flex flex-col justify-center items-center text-center">
                   <RiFileAddLine className="text-blue animate-bounce" size={40} />
-                  <div className="w-2/3">Перетащите или выберите файл .xls, .xlsx</div>
+                  {
+                    file ? <div className="text-sm text-blue">{file.name}</div>
+                      : <div className="w-2/3">Перетащите или выберите файл .xls, .xlsx</div>
+                  }
                 </div>
               </div>
             </label>
+
+            {
+              file && <SubmitForm className="w-auto" />
+            }
           </DialogContent>
         </Dialog>
         <input
@@ -121,14 +130,6 @@ export default function NewProductForm({
             if (e.target.files) setFile(e.target.files[0])
           }}
         />
-
-        {
-          file && <div className="text-sm text-purple">{file.name}</div>
-        }
-
-        {
-          file && <SubmitForm className="w-auto" />
-        }
       </form>
 
       <div className="text-sm"><span className="text-red-500">*</span> обязательное поле</div>
