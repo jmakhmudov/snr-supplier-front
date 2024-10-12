@@ -20,7 +20,6 @@ export default function NewMarketingForm({
 }: NewMarketingForm) {
   const searchParams = useSearchParams();
   const queryParams = new URLSearchParams(searchParams.toString())
-  const [selectedProductId, setSelectedProductId] = useState(searchParams.get("product_id"))
 
   const handleReset = () => {
     window.history.replaceState(null, '', '/marketing/new');
@@ -73,6 +72,11 @@ export default function NewMarketingForm({
           onChange={(e) => updateURLParams('discounted_price', e.target.value)}
           defaultValue={searchParams.get('discounted_price') as string}
           className="w-full"
+          max={
+            searchParams.get('product') ?
+            Number(products.find(product => product.id.toString() === (searchParams.get('product') as string).split(' ')[0].replace('#', ''))?.price) - 100
+            : undefined
+          }
           required
         />
 
