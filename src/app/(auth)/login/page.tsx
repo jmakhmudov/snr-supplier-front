@@ -57,7 +57,7 @@ export default function LoginPage() {
                   name="phone"
                   className="w-full outline-none  placeholder-gray-normal bg-transparent"
                   placeholder="+998"
-                  mask="+998 __ ___ __ __"
+                  mask="+___ __ ___ __ __"
                   replacement={{ _: /\d/ }}
                   defaultValue="+998"
                   required
