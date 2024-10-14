@@ -5,7 +5,6 @@ import { StatusType } from "../ui/Status";
 import { Column } from "../Table/types";
 import { OrderItem } from "@/types";
 import Table from "../Table";
-import { generatePDF } from "@/helpers/generatePDF";
 
 type OrderItemRow = OrderItem
 
@@ -63,7 +62,6 @@ export default function OrderDetailInfo({
             columns={columns}
           />
         </div>
-        <button onClick={generatePDF}>Download PDF</button>
       </DialogContent>
     </Dialog>
   )
