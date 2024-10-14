@@ -84,14 +84,13 @@ export default function NewProductForm({
 
   return (
     <section className="bg-white rounded-xl px-8 py-6 space-y-8">
-
-      <form className="flex items-center gap-4" action={handleExcelUpload}>
+      <div>
         <Dialog>
           <DialogTrigger asChild>
-            <div className="flex items-center gap-2 bg-blue h-9 px-5 rounded-full text-white text-sm font-medium cursor-pointer">
+            <Button className="flex items-center gap-2">
               <RiFileAddLine size={18} />
               Загрузить с Excel
-            </div>
+            </Button>
           </DialogTrigger>
           <DialogContent className="w-full text-sm">
             <DialogTitle>Загрузить товары через Excel</DialogTitle>
@@ -102,35 +101,37 @@ export default function NewProductForm({
                 Скачать шаблон
               </div>
             </DialogDescription>
+            <form action={handleExcelUpload}>
 
-            <label htmlFor="file" title="Загрузить с Excel" >
-              <div className="w-full h-48 border-4 border-blue-light rounded-lg border-dashed grid place-items-center text-blue cursor-pointer">
-                <div className="flex flex-col justify-center items-center text-center">
-                  <RiFileAddLine className="text-blue animate-bounce" size={40} />
-                  {
-                    file ? <div className="text-sm text-blue">{file.name}</div>
-                      : <div className="w-2/3">Перетащите или выберите файл .xls, .xlsx</div>
-                  }
+              <label htmlFor="file" title="Загрузить с Excel" >
+                <div className="w-full h-48 border-4 border-blue-light rounded-lg border-dashed grid place-items-center text-blue cursor-pointer">
+                  <div className="flex flex-col justify-center items-center text-center">
+                    <RiFileAddLine className="text-blue animate-bounce" size={40} />
+                    {
+                      file ? <div className="text-sm text-blue">{file.name}</div>
+                        : <div className="w-2/3">Перетащите или выберите файл .xls, .xlsx</div>
+                    }
+                  </div>
                 </div>
-              </div>
-            </label>
+              </label>
 
-            {
-              file && <SubmitForm className="w-auto" />
-            }
+              {
+                file && <SubmitForm className="w-full mt-4" />
+              }
+              <input
+                type="file"
+                name="file"
+                id="file"
+                className="hidden"
+                accept=".xls,.xlsx"
+                onChange={(e) => {
+                  if (e.target.files) setFile(e.target.files[0])
+                }}
+              />
+            </form>
           </DialogContent>
         </Dialog>
-        <input
-          type="file"
-          name="file"
-          id="file"
-          className="hidden"
-          accept=".xls,.xlsx"
-          onChange={(e) => {
-            if (e.target.files) setFile(e.target.files[0])
-          }}
-        />
-      </form>
+      </div>
 
       <div className="text-sm"><span className="text-red-500">*</span> обязательное поле</div>
 
@@ -283,7 +284,7 @@ function SubmitForm({
 
   return (
     <div className={`w-full ${className}`}>
-      <Button disabled={pending} type="submit" className="w-full">
+      <Button disabled={pending} type="submit" className="w-full grid place-items-center">
         {
           pending ?
             <AiOutlineLoading3Quarters className="animate-spin" />
