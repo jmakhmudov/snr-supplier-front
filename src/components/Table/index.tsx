@@ -1,10 +1,10 @@
 import { TableProps } from "./types";
 
-import { IoMdMore } from "react-icons/io";
 
 export default function Table<T>({
   data,
   columns,
+  onDelete,
 }: TableProps<T>) {
 
   return (
@@ -29,7 +29,7 @@ export default function Table<T>({
                   <td className="py-2 px-5 first:pl-5 last:pr-5" key={colIndex}>
                     {
                       col.render
-                        ? col.render(row[col.accessor], row)
+                        ? col.render(row[col.accessor], row, onDelete)
                         : (row[col.accessor] as React.ReactNode)
                     }
                   </td>

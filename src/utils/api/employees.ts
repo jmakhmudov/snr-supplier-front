@@ -18,3 +18,17 @@ export const getEmployees = async (page?: number) => {
 
   return employees;
 }
+
+export const deleteEmployee = async (id: string) => {
+  const url = new URL(`${API_URL}/api/account/company/${id}/remove-user/`);
+  console.log(id)
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    cache: 'no-store',
+  }).then(res => res.json());
+  
+  console.log(res)
+}
