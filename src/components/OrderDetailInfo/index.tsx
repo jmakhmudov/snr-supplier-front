@@ -5,19 +5,20 @@ import { StatusType } from "../ui/Status";
 import { Column } from "../Table/types";
 import { OrderItem } from "@/types";
 import Table from "../Table";
+import { generatePDF } from "@/helpers/generatePDF";
 
 type OrderItemRow = OrderItem
 
 const columns: Column<OrderItemRow>[] = [
   {
     header: 'Наименование товара',
-    accessor: 'product_name',
-    render: (product_name) => <div className="text-xs">{product_name}</div>
+    accessor: 'name',
+    render: (name) => <div className="text-xs">{name}</div>
   },
   {
     header: 'Штрих-код',
-    accessor: 'product_barcode',
-    render: (product_barcode) => <div className="text-xs">{product_barcode}</div>
+    accessor: 'barcode',
+    render: (barcode) => <div className="text-xs">{barcode}</div>
   },
   {
     header: 'Количество',
@@ -44,24 +45,25 @@ export default function OrderDetailInfo({
       <DialogTrigger>
         <div className="underline font-medium cursor-pointer">{order.slug as string}</div>
       </DialogTrigger>
-      <DialogContent className="w-full select-none">
-        <DialogHeader>
+      <DialogContent className="w-full max-w-2xl select-none">
+        <DialogHeader className="w-full">
           <DialogTitle>Акт приема-передачи № {order.slug as string} от {new Date(order.created_at).toLocaleDateString("ru")}</DialogTitle>
-          <div className="py-4 grid grid-cols-2 w-full gap-2 text-sm">
-            <div className="font-medium">Статус:</div>
-            <StatusSelect orderId={order.id} status={order.status as StatusType} />
-
-            <div className="font-medium">Общая стоимость:</div>
-            <div>{`${order.total_price.toLocaleString('ru')} сум`}</div>
-          </div>
-
-          <div>
-            <Table 
-              data={data}
-              columns={columns}
-            />
-          </div>
         </DialogHeader>
+        <div className="py-4 grid grid-cols-2 w-full gap-2 text-sm">
+          <div className="font-medium">Статус:</div>
+          <StatusSelect orderId={order.id} status={order.status as StatusType} />
+
+          <div className="font-medium">Общая стоимость:</div>
+          <div>{`${order.total_price.toLocaleString('ru')} сум`}</div>
+        </div>
+
+        <div>
+          <Table
+            data={data}
+            columns={columns}
+          />
+        </div>
+        <button onClick={generatePDF}>Download PDF</button>
       </DialogContent>
     </Dialog>
   )
