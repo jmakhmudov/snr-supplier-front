@@ -9,7 +9,7 @@ import Textarea from "@/components/ui/Textarea";
 import { SubCategory } from "@/types";
 import { getSubCategoryInfo } from "@/utils/api/categories";
 import { uploadExcel } from "@/utils/api/products";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -62,7 +62,7 @@ export default function NewProductForm({
   const handleExcelUpload = async (formData: FormData) => {
     const success = await uploadExcel(formData)
     console.log(success)
-    if (success) window.location.href = '/'
+    if (success) redirect('/')
   }
 
   const handleDownload = () => {

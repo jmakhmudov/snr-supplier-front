@@ -29,14 +29,17 @@ const columns: Column<Row>[] = [
   {
     header: 'Фото',
     accessor: 'product',
-    render: (_, row) => <div className="relative w-10 h-10">
-      <Image
-        quality={20}
-        alt={row.product.name_ru}
-        src={row.product.images[0].image}
-        className="object-contain"
-        fill
-      />
+    render: (_, row) => <div className="relative w-10 h-10 bg-gray-light">
+      {
+        row.product.images.length > 0 &&
+          <Image
+            quality={20}
+            alt={row.product.name_ru}
+            src={row.product.images[0].image}
+            className="object-contain"
+            fill
+          />
+      }
     </div>
   },
   {
