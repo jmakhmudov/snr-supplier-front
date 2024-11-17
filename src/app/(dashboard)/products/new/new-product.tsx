@@ -242,6 +242,18 @@ export default function NewProductForm({
           required
         />
 
+        <Input
+          label="Квант"
+          placeholder="Квант"
+          type="number"
+          name="order_quantity"
+          onChange={(e) => updateURLParams('order_quantity', e.target.value)}
+          defaultValue={searchParams.get('order_quantity') as string}
+          className="w-full"
+          min={0}
+          required
+        />
+
         <hr className="my-6" />
 
         <Input

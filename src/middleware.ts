@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getUser, refreshToken, verifyToken } from './utils/api/auth';
+import { User } from './types';
 
 export async function middleware(request: NextRequest) {
   try {
     const isAuthenticated = await verifyToken(request.cookies.get('access')?.value as string);
     console.log('isAuthenticated', isAuthenticated);
-    const user = await getUser();
+    const user: User = await getUser();
 
     if (!isAuthenticated) {
       const token = await refreshToken(request.cookies.get('refresh')?.value as string);
@@ -32,7 +33,7 @@ export async function middleware(request: NextRequest) {
       if (url.startsWith('/join/')) {
         return NextResponse.next();
       }
-      
+
       return NextResponse.rewrite(new URL('/waiting', request.url));
     }
   } catch (error) {

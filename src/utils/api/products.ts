@@ -53,9 +53,24 @@ export const getProducts = async (page?: number, searchQ?: string) => {
   }
 }
 
-export const patchProduct = async (field: string, value: string, slug: string) => {
-  console.log(slug)
-  const res = await fetch(`${API_URL}/api/product/products/${slug}/update/`, {
+export const updateProduct = async (formData: FormData) => {
+  console.log(formData);
+  
+  const res = await fetch(`${API_URL}/api/product/products/${formData.get("id")}/update/`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    body: formData,
+    cache: 'no-store',
+  }).then(res => res.json());
+
+  return res;
+}
+
+export const patchProduct = async (field: string, value: string, id: number) => {
+  console.log(id)
+  const res = await fetch(`${API_URL}/api/product/products/${id}/update/`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -70,7 +85,7 @@ export const patchProduct = async (field: string, value: string, slug: string) =
   return res;
 }
 
-export const deleteProduct = async (slug: string) => {
+export const deleteProduct = async (slug: number) => {
   const res = await fetch(`${API_URL}/api/product/products/${slug}/delete/`, {
     method: 'DELETE',
     headers: {
@@ -88,7 +103,7 @@ export const createProduct = async (data: FormData) => {
     },
     body: data,
   }).then(res => res.json());
-  console.log(newProduct)
+  console.log(JSON.stringify(newProduct))
 
   return newProduct;
 }
@@ -132,4 +147,19 @@ export const uploadExcel = async (formData: FormData) => {
   })
 
   return res.status === 201
+}
+
+
+export const removeImage = async (id: number) => {
+  const url = new URL(`${API_URL}/api/product/product-image/delete/${id}/`)
+
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${cookies().get('access')?.value}`
+    },
+    cache: 'no-store',
+  })
+
+  return res.status === 204;
 }

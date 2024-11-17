@@ -37,10 +37,11 @@ export interface Product {
   quantity: number;
   is_top: boolean;
   price: string;
-  manufacture_date: string | null;
-  storage_life: string | null;
+  manufacture_date: string;
+  storage_life: string;
   slug: string;
   is_active: boolean;
+  order_quantity: number;
   images: {
     id: number;
     product: number;
@@ -125,6 +126,10 @@ export interface Company {
   lon: number;
   logo: string | null;
   min_order_price: number | null;
+  director_passport_path: string;
+  registration_certificate_path: string;
+  cash_register_document_path: string;
+  vat_certificate_path: string;
 }
 
 export interface User {

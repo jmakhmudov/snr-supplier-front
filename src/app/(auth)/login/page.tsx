@@ -23,7 +23,7 @@ export default function LoginPage() {
     if (formState.message === 'error') {
       setShowAlert(true);
     }
-  }, [formState.message]);
+  }, [formState]);
 
   return (
     <div>

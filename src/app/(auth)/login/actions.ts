@@ -24,9 +24,6 @@ export async function loginAction(
     cookies().set('refresh', data.refresh);
     
     redirect("/")
-    return {
-      message: 'success',
-    }
   }
 
   return {

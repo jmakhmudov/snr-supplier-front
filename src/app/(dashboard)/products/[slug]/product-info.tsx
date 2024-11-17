@@ -11,6 +11,8 @@ import { ChangeEvent, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
 import { MdDelete, MdEdit } from "react-icons/md";
 import uploadImageAction from "./actions";
+import Link from "next/link";
+import { removeImage } from '@/utils/api/products'
 
 interface ProductInfoProps {
   product: Product;
@@ -21,6 +23,7 @@ export default function ProductInfo({
 }: ProductInfoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [images, setImages] = useState(product.images)
 
   const handleImagesUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target || [];
@@ -38,8 +41,14 @@ export default function ProductInfo({
   const closeModal = () => setIsModalOpen(false);
 
   const handleDeleteProduct = async () => {
-    await deleteProduct(product.slug);
+    await deleteProduct(product.id);
     window.location.href = '/';
+  }
+
+  const handleDeleteImage = async (id: number) => {
+    const res = await removeImage(id);
+    console.log(res);
+    if (res) setImages(images.filter((image) => image.id !== id));
   }
 
   return (
@@ -51,12 +60,13 @@ export default function ProductInfo({
           </div>
 
           <div className="flex gap-2">
-            <div
+            <Link
+              href={`/products/update/${product.slug}`}
               className="bg-blue rounded-full p-1.5 cursor-pointer"
               title="Изменить"
             >
               <MdEdit className="text-white" />
-            </div>
+            </Link>
             <div
               className="bg-red-500 rounded-full p-1.5 cursor-pointer"
               title="Удалить"
@@ -101,20 +111,31 @@ export default function ProductInfo({
             window.location.reload()
           }} className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
             {
-              product.images.map(image => (
-                <div key={image.image} className="w-48 aspect-square relative ">
-                  <Image
-                    src={image.image}
-                    alt={image.image}
-                    className="object-contain border border-gray-light-0 rounded-lg"
-                    fill
-                  />
+              images.map(image => (
+                <div key={image.image} className="grid border border-gray-light-0 rounded-lg">
+                  <div className="w-[200px] aspect-square relative ">
+                    <Image
+                      src={image.image}
+                      alt={image.image}
+                      className="object-contain "
+                      fill
+                    />
+                  </div>
+
+                  <div
+                    className="p-2 flex items-center gap-1 text-xs hover:text-red-500 justify-center cursor-pointer"
+                    title="Удалить фото"
+                    onClick={() => handleDeleteImage(image.id)}
+                  >
+                    <MdDelete />
+                    <div>Удалить</div>
+                  </div>
                 </div>
               ))
             }
             {
               uploadedImages.map((image) => (
-                <div key={URL.createObjectURL(image)} className="w-48 aspect-square relative ">
+                <div key={URL.createObjectURL(image)} className="w-[200px] aspect-square relative ">
                   <Image
                     src={URL.createObjectURL(image)}
                     alt={URL.createObjectURL(image)}
@@ -194,6 +215,10 @@ export default function ProductInfo({
               <DetailItem
                 label="Активен"
                 value={product.is_active ? 'ДА' : 'НЕТ'}
+              />
+              <DetailItem
+                label="Квант"
+                value={`${product.order_quantity} шт.`}
               />
             </div>
           </section>

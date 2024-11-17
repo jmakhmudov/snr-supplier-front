@@ -31,7 +31,7 @@ export default function ProductCard({
 
   const handleUpdateStatus = async (isActive: boolean) => {
     try {
-      const updatedProduct = await patchProduct('is_active', String(isActive), currProduct.slug);
+      const updatedProduct = await patchProduct('is_active', String(isActive), currProduct.id);
       setCurrProduct((prevProduct) => ({
         ...prevProduct,
         ...updatedProduct,

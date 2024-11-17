@@ -93,7 +93,8 @@ export default function Select({
         {!children && (
           <input
             {...inputProps}
-            className="outline-none w-full"
+            className="outline-none w-full read-only:curs"
+            
             onChange={handleSearch}
             value={input}
             onClick={() => setShowOptions(true)}

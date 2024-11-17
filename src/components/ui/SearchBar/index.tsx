@@ -19,7 +19,7 @@ export default function SearchBar({
 }: SearchBarProps) {
 
   return (
-    <div className="max-w-96 flex gap-3 px-3.5 items-center h-10 rounded-full overflow-hidden border border-gray-normal bg-white">
+    <div className="max-w-96 flex gap-3 px-3.5 items-center h-10 rounded-md overflow-hidden border border-gray-normal bg-white">
       <FiSearch size={17} className="text-gray-normal" />
 
       <input

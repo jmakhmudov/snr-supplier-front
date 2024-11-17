@@ -50,7 +50,7 @@ export default function AccountInfo({
                 </div>
                 <InfoBox title="Название компании" value={user.company?.name} />
                 <InfoBox title="ИНН компании" value={user.company?.inn} />
-                <div></div>
+                <InfoBox title="Мин. стоимость заказа" value={`${user.company?.min_order_price?.toLocaleString("ru")} сум`} />
                 <InfoBox title="Номер телефона компании" value={user.company?.phone_number} />
 
                 {
@@ -81,7 +81,7 @@ const InfoBox = ({
   value
 }: {
   title: string,
-  value: string | undefined
+  value: string | string |undefined;
 }) => {
   return (
     <div className="mt-2 md:mt-1 md:w-1/2 w-full">

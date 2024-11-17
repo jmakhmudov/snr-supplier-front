@@ -5,6 +5,10 @@ import { StatusType } from "../ui/Status";
 import { Column } from "../Table/types";
 import { OrderItem } from "@/types";
 import Table from "../Table";
+import { FaRegFileLines } from "react-icons/fa6";
+import Button from "../ui/Buttons/Button";
+import { useTransition } from "react";
+import Cookies from "universal-cookie";
 
 type OrderItemRow = OrderItem
 
@@ -37,7 +41,42 @@ export default function OrderDetailInfo({
 }: {
   order: OrderRow
 }) {
+  const [isPending, setTransition] = useTransition();
   const data: OrderItemRow[] = order.order_items
+
+  const handleReportDownload = async () => {
+    setTransition(async () => {
+      const cookiesStore = new Cookies();
+      const accessToken = cookiesStore.get("access");
+      let anchor = document.createElement("a");
+      document.body.appendChild(anchor);
+
+      let headers = new Headers();
+      headers.append('Authorization', `Bearer ${accessToken}`);
+      const url = `api/reports/invoice/${order.id}/`
+
+      try {
+        const response = await fetch(url, { headers });
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const blobby = await response.blob();
+        let objectUrl = window.URL.createObjectURL(blobby);
+
+        let filename = `Накладная_${order.slug}.xlsx`;;
+
+        anchor.href = objectUrl;
+        anchor.download = filename;
+        anchor.click();
+
+        window.URL.revokeObjectURL(objectUrl);
+      } catch (error) {
+        console.log(error)
+      }
+    })
+
+  };
 
   return (
     <Dialog>
@@ -49,6 +88,9 @@ export default function OrderDetailInfo({
           <DialogTitle>Акт приема-передачи № {order.slug as string} от {new Date(order.created_at).toLocaleDateString("ru")}</DialogTitle>
         </DialogHeader>
         <div className="py-4 grid grid-cols-2 w-full gap-2 text-sm">
+          <div className="font-medium">Дата и время заказа:</div>
+          <div>{new Date(order.created_at).toLocaleString('ru')}</div>
+
           <div className="font-medium">Статус:</div>
           <StatusSelect orderId={order.id} status={order.status as StatusType} />
 
@@ -61,6 +103,10 @@ export default function OrderDetailInfo({
             data={data}
             columns={columns}
           />
+        </div>
+
+        <div className="flex justify-end">
+          <Button disabled={isPending} className="flex items-center gap-2" onClick={handleReportDownload}>Скачать накладную <FaRegFileLines /></Button>
         </div>
       </DialogContent>
     </Dialog>

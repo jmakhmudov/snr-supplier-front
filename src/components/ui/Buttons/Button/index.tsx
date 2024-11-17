@@ -17,7 +17,7 @@ export default function Button({
   disabled,
   ...inputProps
 }: ButtonProps) {
-  const baseClasses = "h-9 px-5 rounded-full font-medium text-sm transition-all duration-150 select-none text-center truncate line-clamp-1";
+  const baseClasses = "h-9 px-5 rounded-md font-medium text-sm transition-all duration-150 select-none text-center truncate line-clamp-1";
   const variantClasses = {
     solid: "bg-blue text-white hover:bg-blue-hover disabled:bg-blue-light disabled:text-blue",
     outline: "bg-white text-blue border-2 border-blue",
