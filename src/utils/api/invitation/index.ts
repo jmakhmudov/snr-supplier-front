@@ -8,7 +8,7 @@ export const acceptInvitation = async (token: string) => {
   const data = await fetch(`${API_URL}/api/account/invitations/accept/`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`,
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ token })
@@ -21,7 +21,7 @@ export const getInvitationInfo = async (token: string) => {
   const data = await fetch(`${API_URL}/api/account/invitation/${token}/`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`,
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`,
       'Content-Type': 'application/json'
     }
   }).then(res => res.json())
@@ -33,7 +33,7 @@ export const createInvitation = async (formData: FormData) => {
   const data = await fetch(`${API_URL}/api/account/invitations/create/`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`,
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`,
     },
     body: formData
   }).then(res => res.json())

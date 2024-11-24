@@ -14,6 +14,11 @@ import { inputFields } from "./input-fields";
 import Button from '@/components/ui/Buttons/Button';
 import Link from 'next/link';
 
+const alertMessages = {
+  "back-error": "Сервис временно не доступен, попробуйте позже",
+  "already-reg": "Этот номер уже зарегестрирован в системе!"
+}
+
 
 function EnterCode({ phone }: { phone: string }) {
   const [state, verify] = useFormState(verifyCodeAction, {
@@ -81,18 +86,23 @@ function SuccessfulRegistration() {
 
 export default function SignUpPage() {
   const [state, signUp] = useFormState(signUpAction, {
-    message: ''
+    error: null,
+    message: null
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [phone, setPhone] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessageKey, setAlertMessageKey] = useState<'back-error' | 'already-reg'>();
 
   const handleSignUp = (formData: FormData) => {
     signUp(formData);
   };
 
   useEffect(() => {
-    if (state.message === "User registered successfully.") {
+    if (!state.error && state.message === "success") {
       setIsSubmitted(true);
+    } else {
+      setShowAlert(true);
+      setAlertMessageKey(state.error);
     }
   }, [state])
 
@@ -122,6 +132,7 @@ export default function SignUpPage() {
                       label="Номер телефона"
                       variant="underlined"
                       icon={<FiPhone size={17} />}
+                      alert={showAlert && alertMessageKey === "already-reg"}
                       required
                     >
                       <InputMask
@@ -130,7 +141,6 @@ export default function SignUpPage() {
                         name='phone'
                         mask="+998 __ ___ __ __"
                         replacement={{ _: /\d/ }}
-                        onChange={(e) => setPhone(e.target.value)}
                         required
                       />
                     </Input>
@@ -146,6 +156,8 @@ export default function SignUpPage() {
                     }
                   </div>
                 </div>
+
+                {(showAlert && alertMessageKey) && <div className="text-red-500 text-xs text-center">{alertMessages[alertMessageKey]}</div>}
 
                 <div className="space-y-2">
                   <SubmitForm>Далее</SubmitForm>

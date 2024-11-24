@@ -5,22 +5,22 @@ import { User } from './types';
 
 export async function middleware(request: NextRequest) {
   try {
-    const isAuthenticated = await verifyToken(request.cookies.get('access')?.value as string);
-    console.log('isAuthenticated', isAuthenticated);
+    const isAuthenticated = await verifyToken(request.cookies.get('access_sup')?.value as string);
+    console.log('user');
     const user: User = await getUser();
 
     if (!isAuthenticated) {
-      const token = await refreshToken(request.cookies.get('refresh')?.value as string);
+      const token = await refreshToken(request.cookies.get('refersh_sup')?.value as string);
 
       if (!token) {
-        request.cookies.delete('access');
-        request.cookies.delete('refresh');
+        request.cookies.delete('access_sup');
+        request.cookies.delete('refersh_sup');
         return NextResponse.rewrite(new URL('/login', request.url));
       }
 
       const response = NextResponse.next();
 
-      response.cookies.set('access', token, {
+      response.cookies.set('access_sup', token, {
         httpOnly: true,
         path: '/',
       });
@@ -37,7 +37,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL('/waiting', request.url));
     }
   } catch (error) {
-    console.error('Middleware error:', error);
+    request.cookies.delete('access_sup');
+    request.cookies.delete('refersh_sup');
+    return NextResponse.rewrite(new URL('/login', request.url));
   }
 }
 

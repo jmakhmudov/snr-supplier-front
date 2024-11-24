@@ -47,7 +47,7 @@ export default function OrderDetailInfo({
   const handleReportDownload = async () => {
     setTransition(async () => {
       const cookiesStore = new Cookies();
-      const accessToken = cookiesStore.get("access");
+      const accessToken = cookiesStore.get("access_sup");
       let anchor = document.createElement("a");
       document.body.appendChild(anchor);
 

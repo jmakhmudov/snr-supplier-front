@@ -5,28 +5,23 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export interface FormState {
-  message: string;
+  error: string | null;
 }
 
 export async function loginAction(
   state: FormState,
   formData: FormData
 ) {
-  console.log(formData)
-  console.log(state)
   const data = await login(formData);
-
-  console.log(data)
-
-  if (!data.detail) {
-    console.log('logged in');
-    cookies().set('access', data.access);
-    cookies().set('refresh', data.refresh);
+  console.log(data);
+  if (!data.error) {
+    cookies().set('access_sup', data.access);
+    cookies().set('refersh_sup', data.refresh);
     
     redirect("/")
   }
 
   return {
-    message: 'error'
+    error: data.error
   }
 }

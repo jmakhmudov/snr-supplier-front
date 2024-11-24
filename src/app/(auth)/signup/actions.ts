@@ -11,13 +11,22 @@ export async function signUpAction(
 ): Promise<any> {
   const data = await signUp(formData);
 
-  if (data.message === 'number has been already registered in our system, please login using your password') {
+  if (data.error === 'This number is already taken. Please choose a different one.') {
     return {
-      message: 'already registed'
+      error: 'already-reg'
     }
   }
 
-  return data;
+  if (data.data) {
+    return {
+      ...data,
+      message: 'success'
+    };
+  }
+  
+  return {
+    error: 'back-error'
+  }
 }
 
 export async function verifyCodeAction(
@@ -36,5 +45,5 @@ export async function verifyCodeAction(
   window.location.href = '/';
   const { access, refresh } = data;
   cookies.set('access', access);
-  cookies.set('refresh', refresh);
+  cookies.set('refersh_sup', refresh);
 }

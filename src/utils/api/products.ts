@@ -11,7 +11,7 @@ export const getProductBySlug = async (slug: string) => {
     const _cookies = cookies()
     const product = await fetch(`${API_URL}/api/product/products/${slug}/`, {
       headers: {
-        Authorization: `Bearer ${_cookies.get('access')?.value}`
+        Authorization: `Bearer ${_cookies.get('access_sup')?.value}`
       },
       cache: 'no-store',
     }).then(res => res.json());
@@ -39,16 +39,17 @@ export const getProducts = async (page?: number, searchQ?: string) => {
 
     const products = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${cookies().get('access')?.value}`
+        Authorization: `Bearer ${cookies().get('access_sup')?.value}`
       },
       cache: 'no-store',
+      credentials: 'include',
     }).then(res => res.json());
 
     return products;
   } catch (e) {
     console.error('error while fetching products', e);
     return {
-      data: []
+      results: []
     };
   }
 }
@@ -59,7 +60,7 @@ export const updateProduct = async (formData: FormData) => {
   const res = await fetch(`${API_URL}/api/product/products/${formData.get("id")}/update/`, {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: formData,
     cache: 'no-store',
@@ -74,7 +75,7 @@ export const patchProduct = async (field: string, value: string, id: number) => 
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: JSON.stringify({
       [field]: value
@@ -89,7 +90,7 @@ export const deleteProduct = async (slug: number) => {
   const res = await fetch(`${API_URL}/api/product/products/${slug}/delete/`, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     cache: 'no-store',
   });
@@ -99,7 +100,7 @@ export const createProduct = async (data: FormData) => {
   const newProduct = await fetch(`${API_URL}/api/product/products/create/`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: data,
   }).then(res => res.json());
@@ -113,7 +114,7 @@ export const uploadImage = async (formData: FormData) => {
   const image = await fetch(`${API_URL}/api/product/product-image/upload/`, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: formData,
   }).then(res => res.json());
@@ -126,7 +127,7 @@ export const getProductList = async () => {
 
   const products = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     cache: 'no-store',
   }).then(res => res.json());
@@ -140,7 +141,7 @@ export const uploadExcel = async (formData: FormData) => {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: formData,
     cache: 'no-store',
@@ -156,7 +157,7 @@ export const removeImage = async (id: number) => {
   const res = await fetch(url, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     cache: 'no-store',
   })

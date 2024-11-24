@@ -9,7 +9,7 @@ export async function syncUserData() {
   const updatedUser = await fetch(`/api/account/user/info/`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${cookies.get('access')}`,
+      Authorization: `Bearer ${cookies.get('access_sup')}`,
       'Content-Type': 'application/json'
     }
   }).then(res => res.json());

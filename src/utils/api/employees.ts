@@ -11,7 +11,7 @@ export const getEmployees = async (page?: number) => {
 
   const employees = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     cache: 'no-store',
   }).then(res => res.json());
@@ -25,7 +25,7 @@ export const deleteEmployee = async (id: string) => {
   const res = await fetch(url, {
     method: 'DELETE',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     cache: 'no-store',
   }).then(res => res.json());

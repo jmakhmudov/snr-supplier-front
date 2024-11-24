@@ -27,7 +27,7 @@ export const getAnalytics = async () => {
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
   }).then(res => res.json());
 
@@ -40,7 +40,7 @@ export const createDiscount = async (data: FormData) => {
   const res = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: data,
   }).then(res => res.json());
@@ -53,7 +53,7 @@ export const stopDisountCampaign = async (id: number) => {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     body: JSON.stringify({
       is_active: false

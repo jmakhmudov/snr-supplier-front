@@ -6,8 +6,8 @@ import { redirect } from 'next/navigation';
 const API_URL = process.env.API_URL;
 
 export const logout = async () => {
-  cookies().delete('access');
-  cookies().delete('refresh');
+  cookies().delete('access_sup');
+  cookies().delete('refersh_sup');
   redirect("/")
 }
 
@@ -49,32 +49,49 @@ export const refreshToken = async (refreshToken: string) => {
 }
 
 export const login = async (formData: FormData) => {
-  const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
-  formData.set('username', phone);
+  try {
+    const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
+    formData.set('username', phone);
 
-  const data = await fetch(`${API_URL}/api/core/token/`, {
-    method: 'POST',
-    body: formData
-  }).then(res => res.json());
+    const data = await fetch(`${API_URL}/api/core/token/supplier/`, {
+      method: 'POST',
+      body: formData
+    });
 
-  console.log(data);
-  cookies().set("rtest", "e")
-  return data;
+    if (data.status === 400) {
+      return {
+        error: 'unauthorized'
+      };
+    }
+
+    return await data.json();
+  } catch (error) {
+    return {
+      error: 'back-error'
+    };
+  }
 }
 
+
 export const signUp = async (formData: FormData) => {
-  const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
-  formData.set('username', phone);
-  formData.set('is_supplier', 'true');
-
-  const data = await fetch(`${API_URL}/api/account/register/`, {
-    method: 'POST',
-    body: formData
-  }).then(res => res.json())
-
-  console.log(data);
-
-  return data;
+  try {
+    const phone = (formData.get('phone') as string).replace(/\s+/g, '').replace('+', '');
+    formData.set('username', phone);
+    formData.set('is_supplier', 'true');
+  
+    const data = await fetch(`${API_URL}/api/account/register/`, {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json())
+  
+    console.log(data);
+  
+    return data;
+  } catch (error) {
+    return {
+      error: 'back-error'
+    };
+  }
 }
 
 export const verifyCode = async (formData: FormData) => {
@@ -93,7 +110,7 @@ export const getUser = async () => {
   const updatedUser = await fetch(`${API_URL}/api/account/user/info/`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${cookies().get('access')?.value}`,
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`,
       'Content-Type': 'application/json'
     }
   }).then(res => res.json());

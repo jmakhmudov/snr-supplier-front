@@ -11,17 +11,22 @@ import { useFormState } from "react-dom";
 import { FiLock, FiPhone } from "react-icons/fi";
 import { FormState, loginAction } from "./actions";
 
+const alertMessages = {
+  "back-error": "Сервис временно не доступен, попробуйте позже",
+  "unauthorized": "Неверный логин или пароль!"
+}
+
 export default function LoginPage() {
   const [formState, formAction] = useFormState(loginAction, {
-    message: 'init'
+    error: null
   } as FormState);
   const [showAlert, setShowAlert] = useState(false);
-
-  console.log(formState, 'formstate')
+  const [alertMessageKey, setAlertMessageKey] = useState<'back-error' | 'unauthorized'>();
 
   useEffect(() => {
-    if (formState.message === 'error') {
+    if (formState.error) {
       setShowAlert(true);
+      setAlertMessageKey(formState.error)
     }
   }, [formState]);
 
@@ -49,7 +54,7 @@ export default function LoginPage() {
             <div className="space-y-4">
               <Input
                 label="Номер телефона"
-                alert={showAlert}
+                alert={showAlert && alertMessageKey === 'unauthorized'}
                 variant="underlined"
                 icon={<FiPhone size={17} />}
               >
@@ -67,7 +72,7 @@ export default function LoginPage() {
               <Input
                 variant="underlined"
                 label="Пароль"
-                alert={showAlert}
+                alert={showAlert && alertMessageKey === 'unauthorized'}
                 icon={<FiLock size={17} />}
                 name="password"
                 type="password"
@@ -76,7 +81,7 @@ export default function LoginPage() {
               />
 
 
-              {showAlert && <div className="text-red-500 text-xs text-center">Неверный логин или пароль!</div>}
+              {(showAlert && alertMessageKey) && <div className="text-red-500 text-xs text-center">{alertMessages[alertMessageKey]}</div>}
 
               <div className="w-full grid place-items-center">
                 <Link

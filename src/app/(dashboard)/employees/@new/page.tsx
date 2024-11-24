@@ -48,7 +48,7 @@ export default function CreateInvitationPage({
 
           {
             invitation.token ?
-              <div className="text-sm font-mono">{window.location.origin}/join/{invitation.token}</div>
+              <div className="text-[8px] md:text-sm font-mono w-fit">{window.location.origin}/join/{invitation.token}</div>
               :
               <form className="grid gap-4" action={handleFormSubmit}>
                 {

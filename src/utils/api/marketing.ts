@@ -13,7 +13,7 @@ export const getMarketingData = async (page?: number) => {
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cookies().get('access')?.value}`
+      Authorization: `Bearer ${cookies().get('access_sup')?.value}`
     },
     cache: 'no-store',
   }).then(res => res.json());

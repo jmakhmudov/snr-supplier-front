@@ -6,7 +6,7 @@ export default function NotFoundPage() {
       <div className="relative text-center">
         <h1 className="font-bold text-9xl text-blue animate-bounce">404</h1>
         <div className="font-medium">Страница не найдена!</div>
-        <Link href={'/'} className="text-blue underline">На главную</Link>
+        <a href={'/'} className="text-blue underline">На главную</a>
       </div>
     </div>
   )
