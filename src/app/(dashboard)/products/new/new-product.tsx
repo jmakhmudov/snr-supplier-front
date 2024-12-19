@@ -16,6 +16,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FiDownload } from "react-icons/fi";
 import { RiFileAddLine } from "react-icons/ri";
 import { createProductAction } from "./actions";
+import { InputMask } from "@react-input/mask";
 
 interface NewProductFormProps {
   subcategories: SubCategory[]
@@ -157,14 +158,19 @@ export default function NewProductForm({
 
         <Input
           label="Штрих-код"
-          placeholder="Штрих-код"
-          type="text"
-          name="barcode"
-          onChange={(e) => updateURLParams('barcode', e.target.value)}
-          defaultValue={searchParams.get('barcode') as string}
-          className="w-full"
           required
-        />
+        >
+          <InputMask
+            name="barcode"
+            className="w-full outline-none  placeholder-gray-normal bg-transparent"
+            mask="_____________"
+            replacement={{ _: /\d/ }}
+            onChange={(e) => updateURLParams('barcode', e.target.value)}
+            defaultValue={searchParams.get('barcode') as string}
+            placeholder="Штрих-код"
+            required
+          />
+        </Input>
 
         <Input
           label="Название товара на РУС"
