@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         source: '/documents/:path*',
-        destination: `${API_URL}/media/documents/:path*/`,
+        destination: `${API_URL}/media/documents/:path*`,
       }
     ]
   },
